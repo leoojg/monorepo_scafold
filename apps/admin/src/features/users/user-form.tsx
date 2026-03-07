@@ -5,6 +5,7 @@ interface UserFormData {
   email: string;
   password?: string;
   role: string;
+  isActive?: boolean;
 }
 
 interface UserFormProps {
@@ -18,16 +19,18 @@ export function UserForm({ initialData, onSubmit, isLoading }: UserFormProps) {
   const [email, setEmail] = useState(initialData?.email ?? '');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState(initialData?.role ?? 'company_admin');
+  const [isActive, setIsActive] = useState(initialData?.isActive ?? true);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const data: UserFormData = { name, email, role };
     if (!initialData) data.password = password;
+    if (initialData) data.isActive = isActive;
     onSubmit(data);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
         <label htmlFor="name" className="text-sm font-medium">Name</label>
         <input
@@ -75,6 +78,18 @@ export function UserForm({ initialData, onSubmit, isLoading }: UserFormProps) {
           <option value="company_admin">Company Admin</option>
         </select>
       </div>
+      {initialData && (
+        <div className="flex items-center gap-2">
+          <input
+            id="isActive"
+            type="checkbox"
+            checked={isActive}
+            onChange={(e) => setIsActive(e.target.checked)}
+            className="h-4 w-4 rounded border-gray-300"
+          />
+          <label htmlFor="isActive" className="text-sm font-medium">Active</label>
+        </div>
+      )}
       <button
         type="submit"
         disabled={isLoading}

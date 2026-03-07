@@ -9,6 +9,8 @@ interface UserRow {
   createdAt: string;
 }
 
+export type { UserRow };
+
 const roleLabels: Record<string, string> = {
   tenant_admin: 'Tenant Admin',
   company_admin: 'Company Admin',
