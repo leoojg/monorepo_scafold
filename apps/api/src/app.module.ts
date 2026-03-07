@@ -4,6 +4,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import mikroOrmConfig from './database/mikro-orm.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { OperatorsModule } from './modules/operators/operators.module';
+import { AuditModule } from './modules/audit/audit.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { OperatorsModule } from './modules/operators/operators.module';
     MikroOrmModule.forRoot(mikroOrmConfig),
     AuthModule,
     OperatorsModule,
+    AuditModule,
   ],
 })
 export class AppModule {}

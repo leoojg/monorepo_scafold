@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { MikroOrmExceptionFilter } from './common/filters/mikro-orm-exception.filter';
+import { AuditContextInterceptor } from './common/interceptors/audit-context.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,6 +26,8 @@ async function bootstrap() {
     new HttpExceptionFilter(),
     new MikroOrmExceptionFilter(),
   );
+
+  app.useGlobalInterceptors(new AuditContextInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('Admin Platform API')
