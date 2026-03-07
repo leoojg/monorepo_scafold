@@ -1,6 +1,5 @@
 import { type Column } from '@/components/data-table/data-table';
 import { StatusBadge } from '@/components/shared/status-badge';
-import { Link } from '@tanstack/react-router';
 
 interface TenantRow {
   id: string;
@@ -10,19 +9,13 @@ interface TenantRow {
   createdAt: string;
 }
 
+export type { TenantRow };
+
 export const columns: Column<TenantRow>[] = [
   {
     key: 'name',
     header: 'Name',
-    render: (tenant) => (
-      <Link
-        to="/tenants/$tenantId"
-        params={{ tenantId: tenant.id }}
-        className="font-medium text-primary hover:underline"
-      >
-        {tenant.name}
-      </Link>
-    ),
+    render: (tenant) => <span className="font-medium">{tenant.name}</span>,
   },
   {
     key: 'slug',
