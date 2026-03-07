@@ -1,0 +1,97 @@
+import { type ReactNode } from 'react';
+import { Pagination } from './pagination';
+
+export interface Column<T> {
+  key: string;
+  header: string;
+  render?: (item: T) => ReactNode;
+}
+
+interface PaginationData {
+  page: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+  onPageChange: (page: number) => void;
+}
+
+interface DataTableProps<T> {
+  columns: Column<T>[];
+  data: T[];
+  isLoading?: boolean;
+  pagination?: PaginationData;
+  onSearchChange?: (search: string) => void;
+  searchPlaceholder?: string;
+}
+
+export function DataTable<T extends Record<string, any>>({
+  columns,
+  data,
+  isLoading,
+  pagination,
+  onSearchChange,
+  searchPlaceholder = 'Search...',
+}: DataTableProps<T>) {
+  return (
+    <div className="space-y-4">
+      {onSearchChange && (
+        <input
+          type="text"
+          placeholder={searchPlaceholder}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="flex h-10 w-full max-w-sm rounded-md border border-input bg-background px-3 py-2 text-sm"
+        />
+      )}
+
+      <div className="rounded-md border">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b bg-muted/50">
+              {columns.map((col) => (
+                <th
+                  key={col.key}
+                  className="px-4 py-3 text-left text-sm font-medium text-muted-foreground"
+                >
+                  {col.header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="px-4 py-8 text-center text-sm text-muted-foreground"
+                >
+                  Loading...
+                </td>
+              </tr>
+            ) : data.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="px-4 py-8 text-center text-sm text-muted-foreground"
+                >
+                  No results found
+                </td>
+              </tr>
+            ) : (
+              data.map((item, idx) => (
+                <tr key={item.id ?? idx} className="border-b">
+                  {columns.map((col) => (
+                    <td key={col.key} className="px-4 py-3 text-sm">
+                      {col.render ? col.render(item) : item[col.key]}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {pagination && <Pagination {...pagination} />}
+    </div>
+  );
+}
