@@ -1,0 +1,32 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [".env"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {},
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "clean": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false
+    },
+    "api:openapi": {
+      "outputs": ["openapi.json"],
+      "dependsOn": ["^build"]
+    },
+    "api:generate": {
+      "dependsOn": ["api#api:openapi"],
+      "outputs": ["src/api/generated/**"]
+    }
+  }
+}
