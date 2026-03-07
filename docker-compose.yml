@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: admin-platform-postgres
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_DB: admin_platform
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - admin_pg_data:/var/lib/postgresql/data
+
+volumes:
+  admin_pg_data:
