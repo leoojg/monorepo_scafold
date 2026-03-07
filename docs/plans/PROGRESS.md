@@ -17,7 +17,7 @@
 |-------|--------|------------|--------|-------|
 | P07 - Tenants CRUD | completed | P06 | feat/tenants-crud | |
 | P08 - Companies CRUD | completed | P06 | feat/companies-crud | |
-| P09 - Users CRUD | pending | P06 | feat/users-crud | |
+| P09 - Users CRUD | completed | P06 | feat/users-crud | |
 | P10 - Activity Log | completed | P06 | feat/activity-log | |
 
 ## Status possiveis
@@ -27,7 +27,7 @@
 - `blocked` — bloqueado (ver notas)
 
 ## Proximo plano
--> **P09 (worktree)**
+-> **Todos os planos concluidos**
 
 ## Politica de arquivamento
 Ao finalizar um plano:
