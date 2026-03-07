@@ -1,9 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { TenantDetailPage } from '@/features/tenants/tenant-detail-page';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_authenticated/tenants/$tenantId')({
-  component: () => {
-    const { tenantId } = Route.useParams();
-    return <TenantDetailPage tenantId={tenantId} />;
-  },
+  component: () => <Outlet />,
 });
