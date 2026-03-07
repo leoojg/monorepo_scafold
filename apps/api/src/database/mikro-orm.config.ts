@@ -3,7 +3,7 @@ import { Migrator } from '@mikro-orm/migrations';
 import { SeedManager } from '@mikro-orm/seeder';
 import { AuditSubscriber } from '../modules/audit/audit.subscriber';
 
-export default defineConfig({
+export const mikroOrmConfig = defineConfig({
   driver: PostgreSqlDriver,
   host: process.env.DB_HOST ?? 'localhost',
   port: Number(process.env.DB_PORT ?? 5432),
