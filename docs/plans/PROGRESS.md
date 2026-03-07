@@ -6,7 +6,7 @@
 |-------|--------|------------|--------|-------|
 | P01 - Monorepo Scaffold | completed | — | main | |
 | P02 - Backend Base | completed | P01 | main | |
-| P03 - Database + Entidades | pending | P02 | main | |
+| P03 - Database + Entidades | completed | P02 | main | |
 | P04 - Auth Module | pending | P03 | main | |
 | P05 - Audit Infrastructure | pending | P04 | main | |
 | P06 - Frontend Base | pending | P05 | main | |
@@ -27,7 +27,7 @@
 - `blocked` — bloqueado (ver notas)
 
 ## Proximo plano
--> **P03 - Database + Entidades**
+-> **P04 - Auth Module**
 
 ## Politica de arquivamento
 Ao finalizar um plano:
