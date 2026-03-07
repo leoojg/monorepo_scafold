@@ -5,6 +5,7 @@ import mikroOrmConfig from './database/mikro-orm.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { OperatorsModule } from './modules/operators/operators.module';
 import { AuditModule } from './modules/audit/audit.module';
+import { TenantsModule } from './modules/tenants/tenants.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AuditModule } from './modules/audit/audit.module';
     AuthModule,
     OperatorsModule,
     AuditModule,
+    TenantsModule,
   ],
 })
 export class AppModule {}

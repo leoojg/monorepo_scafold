@@ -5,6 +5,7 @@ import {
   Enum,
   OneToMany,
   Collection,
+  OptionalProps,
 } from '@mikro-orm/core';
 import { TenantStatus } from '../../common/enums';
 import { Company } from '../companies/company.entity';
@@ -12,6 +13,8 @@ import { User } from '../users/user.entity';
 
 @Entity({ tableName: 'tenants' })
 export class Tenant {
+  [OptionalProps]?: 'id' | 'status' | 'createdAt' | 'updatedAt' | 'companies' | 'users';
+
   @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
   id!: string;
 
