@@ -28,3 +28,6 @@ apps/admin/src/api/generated/
 
 # Coverage
 coverage/
+
+# Worktrees
+.worktrees/
