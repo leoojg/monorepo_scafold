@@ -18,7 +18,7 @@
 | P07 - Tenants CRUD | pending | P06 | feat/tenants-crud | |
 | P08 - Companies CRUD | pending | P06 | feat/companies-crud | |
 | P09 - Users CRUD | pending | P06 | feat/users-crud | |
-| P10 - Activity Log | pending | P06 | feat/activity-log | |
+| P10 - Activity Log | completed | P06 | feat/activity-log | |
 
 ## Status possiveis
 - `pending` — aguardando execucao
