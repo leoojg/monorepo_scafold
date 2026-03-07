@@ -15,7 +15,7 @@
 
 | Plano | Status | Depende de | Branch | Notas |
 |-------|--------|------------|--------|-------|
-| P07 - Tenants CRUD | pending | P06 | feat/tenants-crud | |
+| P07 - Tenants CRUD | completed | P06 | feat/tenants-crud | |
 | P08 - Companies CRUD | pending | P06 | feat/companies-crud | |
 | P09 - Users CRUD | pending | P06 | feat/users-crud | |
 | P10 - Activity Log | completed | P06 | feat/activity-log | |
@@ -27,7 +27,7 @@
 - `blocked` — bloqueado (ver notas)
 
 ## Proximo plano
--> **P07/P08/P09/P10 (paralelo em worktrees)**
+-> **P08/P09 (paralelo em worktrees)**
 
 ## Politica de arquivamento
 Ao finalizar um plano:
