@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedTenantsTenantIdCompaniesIndexRouteImport } from './routes/_authenticated/tenants.$tenantId.companies/index'
+import { Route as AuthenticatedTenantsTenantIdCompaniesCompanyIdRouteImport } from './routes/_authenticated/tenants.$tenantId.companies/$companyId'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -27,27 +29,59 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedTenantsTenantIdCompaniesIndexRoute =
+  AuthenticatedTenantsTenantIdCompaniesIndexRouteImport.update({
+    id: '/tenants/$tenantId/companies/',
+    path: '/tenants/$tenantId/companies/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute =
+  AuthenticatedTenantsTenantIdCompaniesCompanyIdRouteImport.update({
+    id: '/tenants/$tenantId/companies/$companyId',
+    path: '/tenants/$tenantId/companies/$companyId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/login': typeof LoginRoute
+  '/tenants/$tenantId/companies/$companyId': typeof AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute
+  '/tenants/$tenantId/companies/': typeof AuthenticatedTenantsTenantIdCompaniesIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/tenants/$tenantId/companies/$companyId': typeof AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute
+  '/tenants/$tenantId/companies': typeof AuthenticatedTenantsTenantIdCompaniesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/tenants/$tenantId/companies/$companyId': typeof AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute
+  '/_authenticated/tenants/$tenantId/companies/': typeof AuthenticatedTenantsTenantIdCompaniesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/tenants/$tenantId/companies/$companyId'
+    | '/tenants/$tenantId/companies/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/'
-  id: '__root__' | '/_authenticated' | '/login' | '/_authenticated/'
+  to:
+    | '/login'
+    | '/'
+    | '/tenants/$tenantId/companies/$companyId'
+    | '/tenants/$tenantId/companies'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/login'
+    | '/_authenticated/'
+    | '/_authenticated/tenants/$tenantId/companies/$companyId'
+    | '/_authenticated/tenants/$tenantId/companies/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -78,15 +112,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/tenants/$tenantId/companies/': {
+      id: '/_authenticated/tenants/$tenantId/companies/'
+      path: '/tenants/$tenantId/companies'
+      fullPath: '/tenants/$tenantId/companies/'
+      preLoaderRoute: typeof AuthenticatedTenantsTenantIdCompaniesIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/tenants/$tenantId/companies/$companyId': {
+      id: '/_authenticated/tenants/$tenantId/companies/$companyId'
+      path: '/tenants/$tenantId/companies/$companyId'
+      fullPath: '/tenants/$tenantId/companies/$companyId'
+      preLoaderRoute: typeof AuthenticatedTenantsTenantIdCompaniesCompanyIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute: typeof AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute
+  AuthenticatedTenantsTenantIdCompaniesIndexRoute: typeof AuthenticatedTenantsTenantIdCompaniesIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute:
+    AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute,
+  AuthenticatedTenantsTenantIdCompaniesIndexRoute:
+    AuthenticatedTenantsTenantIdCompaniesIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
