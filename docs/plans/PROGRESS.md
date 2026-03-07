@@ -9,7 +9,7 @@
 | P03 - Database + Entidades | completed | P02 | main | |
 | P04 - Auth Module | completed | P03 | main | |
 | P05 - Audit Infrastructure | completed | P04 | main | |
-| P06 - Frontend Base | pending | P05 | main | |
+| P06 - Frontend Base | completed | P05 | main | |
 
 ## Fase 2 — Features Verticais (paralelo em worktrees)
 
@@ -27,7 +27,7 @@
 - `blocked` — bloqueado (ver notas)
 
 ## Proximo plano
--> **P06 - Frontend Base**
+-> **P07/P08/P09/P10 (paralelo em worktrees)**
 
 ## Politica de arquivamento
 Ao finalizar um plano:
