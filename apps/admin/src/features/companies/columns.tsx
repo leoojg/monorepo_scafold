@@ -8,13 +8,13 @@ interface CompanyRow {
   createdAt: string;
 }
 
+export type { CompanyRow };
+
 export const columns: Column<CompanyRow>[] = [
   {
     key: 'name',
     header: 'Name',
-    render: (company) => (
-      <span className="font-medium">{company.name}</span>
-    ),
+    render: (company) => <span className="font-medium">{company.name}</span>,
   },
   {
     key: 'document',

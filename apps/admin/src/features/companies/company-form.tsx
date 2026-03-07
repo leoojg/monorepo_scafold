@@ -3,6 +3,7 @@ import { useState, type FormEvent } from 'react';
 interface CompanyFormData {
   name: string;
   document: string;
+  isActive?: boolean;
 }
 
 interface CompanyFormProps {
@@ -14,14 +15,17 @@ interface CompanyFormProps {
 export function CompanyForm({ initialData, onSubmit, isLoading }: CompanyFormProps) {
   const [name, setName] = useState(initialData?.name ?? '');
   const [document, setDocument] = useState(initialData?.document ?? '');
+  const [isActive, setIsActive] = useState(initialData?.isActive ?? true);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    onSubmit({ name, document });
+    const data: CompanyFormData = { name, document };
+    if (initialData) data.isActive = isActive;
+    onSubmit(data);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
         <label htmlFor="name" className="text-sm font-medium">Name</label>
         <input
@@ -42,6 +46,18 @@ export function CompanyForm({ initialData, onSubmit, isLoading }: CompanyFormPro
           required
         />
       </div>
+      {initialData && (
+        <div className="flex items-center gap-2">
+          <input
+            id="isActive"
+            type="checkbox"
+            checked={isActive}
+            onChange={(e) => setIsActive(e.target.checked)}
+            className="h-4 w-4 rounded border-gray-300"
+          />
+          <label htmlFor="isActive" className="text-sm font-medium">Active</label>
+        </div>
+      )}
       <button
         type="submit"
         disabled={isLoading}

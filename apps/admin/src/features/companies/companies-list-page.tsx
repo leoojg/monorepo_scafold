@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import { DataTable } from '@/components/data-table/data-table';
-import { columns } from './columns';
+import { columns, type CompanyRow } from './columns';
+import { CompanyForm } from './company-form';
+import { Modal } from '@/components/shared/modal';
+import { ConfirmDialog } from '@/components/shared/confirm-dialog';
+import { ActionsDropdown, DropdownItem } from '@/components/shared/actions-dropdown';
 import { customInstance } from '@/api/client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Plus, Pencil, Ban, CheckCircle } from 'lucide-react';
 
 interface CompaniesListPageProps {
   tenantId: string;
@@ -10,36 +15,110 @@ interface CompaniesListPageProps {
 
 async function fetchCompanies(tenantId: string, params: { page: number; limit: number; search?: string }) {
   return customInstance<{
-    items: any[];
+    items: CompanyRow[];
     total: number;
     page: number;
     limit: number;
     totalPages: number;
     hasNext: boolean;
     hasPrevious: boolean;
-  }>({
-    url: `/tenants/${tenantId}/companies`,
-    method: 'GET',
-    params,
-  });
+  }>({ url: `/tenants/${tenantId}/companies`, method: 'GET', params });
+}
+
+async function createCompany(tenantId: string, data: { name: string; document: string }) {
+  return customInstance({ url: `/tenants/${tenantId}/companies`, method: 'POST', data });
+}
+
+async function updateCompany(tenantId: string, id: string, data: Record<string, unknown>) {
+  return customInstance({ url: `/tenants/${tenantId}/companies/${id}`, method: 'PATCH', data });
 }
 
 export function CompaniesListPage({ tenantId }: CompaniesListPageProps) {
+  const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [createOpen, setCreateOpen] = useState(false);
+  const [editItem, setEditItem] = useState<CompanyRow | null>(null);
+  const [confirmToggle, setConfirmToggle] = useState<CompanyRow | null>(null);
 
   const { data, isLoading } = useQuery({
     queryKey: ['companies', tenantId, { page, search }],
     queryFn: () => fetchCompanies(tenantId, { page, limit: 20, search: search || undefined }),
   });
 
+  const createMutation = useMutation({
+    mutationFn: (formData: { name: string; document: string }) => createCompany(tenantId, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['companies', tenantId] });
+      setCreateOpen(false);
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, ...formData }: { id: string; name: string; document: string; isActive?: boolean }) =>
+      updateCompany(tenantId, id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['companies', tenantId] });
+      setEditItem(null);
+    },
+  });
+
+  const toggleMutation = useMutation({
+    mutationFn: (company: CompanyRow) =>
+      updateCompany(tenantId, company.id, { isActive: !company.isActive }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['companies', tenantId] });
+      setConfirmToggle(null);
+    },
+  });
+
+  const actionsColumn = {
+    key: 'actions',
+    header: '',
+    render: (company: CompanyRow) => (
+      <ActionsDropdown>
+        <DropdownItem onClick={() => setEditItem(company)}>
+          <Pencil className="mr-2 h-4 w-4" />
+          Edit
+        </DropdownItem>
+        <DropdownItem
+          onClick={() => setConfirmToggle(company)}
+          variant={company.isActive ? 'destructive' : 'default'}
+        >
+          {company.isActive ? (
+            <>
+              <Ban className="mr-2 h-4 w-4" />
+              Disable
+            </>
+          ) : (
+            <>
+              <CheckCircle className="mr-2 h-4 w-4" />
+              Enable
+            </>
+          )}
+        </DropdownItem>
+      </ActionsDropdown>
+    ),
+  };
+
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Companies</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Companies</h1>
+        <button
+          onClick={() => setCreateOpen(true)}
+          className="inline-flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+        >
+          <Plus className="h-4 w-4" />
+          New Company
+        </button>
+      </div>
+
       <DataTable
-        columns={columns}
+        columns={[...columns, actionsColumn]}
         data={data?.items ?? []}
         isLoading={isLoading}
+        onRowClick={(company) => setEditItem(company)}
         pagination={{
           page: data?.page ?? 1,
           totalPages: data?.totalPages ?? 0,
@@ -49,6 +128,32 @@ export function CompaniesListPage({ tenantId }: CompaniesListPageProps) {
         }}
         onSearchChange={setSearch}
         searchPlaceholder="Search companies..."
+      />
+
+      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="New Company">
+        <CompanyForm
+          onSubmit={(data) => createMutation.mutate(data)}
+          isLoading={createMutation.isPending}
+        />
+      </Modal>
+
+      <Modal open={!!editItem} onClose={() => setEditItem(null)} title="Edit Company">
+        {editItem && (
+          <CompanyForm
+            initialData={{ name: editItem.name, document: editItem.document, isActive: editItem.isActive }}
+            onSubmit={(data) => updateMutation.mutate({ id: editItem.id, ...data })}
+            isLoading={updateMutation.isPending}
+          />
+        )}
+      </Modal>
+
+      <ConfirmDialog
+        open={!!confirmToggle}
+        title={confirmToggle?.isActive ? 'Disable Company' : 'Enable Company'}
+        description={`Are you sure you want to ${confirmToggle?.isActive ? 'disable' : 'enable'} "${confirmToggle?.name}"?`}
+        confirmLabel={confirmToggle?.isActive ? 'Disable' : 'Enable'}
+        onConfirm={() => confirmToggle && toggleMutation.mutate(confirmToggle)}
+        onCancel={() => setConfirmToggle(null)}
       />
     </div>
   );
