@@ -865,6 +865,12 @@ cd apps/api && pnpm test -- --testPathPattern=tenants
 - [ ] Frontend: pagina de listagem renderiza com DataTable
 - [ ] Frontend: pagina de detalhe mostra dados do tenant
 
+## Commit
+
+Apos verificacao final, commitar todas as alteracoes:
+- Mensagem: `feat(P07): tenants CRUD - backend module + frontend pages + testes`
+- Escrever mensagem em `/tmp/commit-msg.txt`, usar `git commit -F /tmp/commit-msg.txt`, apagar o arquivo depois.
+
 ## Ao finalizar
 1. Atualizar `docs/plans/PROGRESS.md` -> P07 status `completed`
 2. Mover este arquivo para `docs/plans/done/`

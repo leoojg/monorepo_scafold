@@ -843,6 +843,12 @@ cd apps/api && pnpm test -- --testPathPattern=companies
 - [ ] API: `DELETE /api/v1/tenants/:tenantId/companies/:id` remove
 - [ ] Frontend: listagem e detalhe renderizam
 
+## Commit
+
+Apos verificacao final, commitar todas as alteracoes:
+- Mensagem: `feat(P08): companies CRUD - backend module scoped por tenant + frontend pages + testes`
+- Escrever mensagem em `/tmp/commit-msg.txt`, usar `git commit -F /tmp/commit-msg.txt`, apagar o arquivo depois.
+
 ## Ao finalizar
 1. Atualizar `docs/plans/PROGRESS.md` -> P08 status `completed`
 2. Mover este arquivo para `docs/plans/done/`

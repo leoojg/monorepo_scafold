@@ -464,6 +464,12 @@ cd apps/api && pnpm test
 - [ ] Seed cria operator root no banco (se PostgreSQL disponivel)
 - [ ] Todas as entidades estao em seus respectivos modulos
 
+## Commit
+
+Apos verificacao final, commitar todas as alteracoes:
+- Mensagem: `feat(P03): database entities, enums, migration inicial e seed do operator`
+- Escrever mensagem em `/tmp/commit-msg.txt`, usar `git commit -F /tmp/commit-msg.txt`, apagar o arquivo depois.
+
 ## Ao finalizar
 1. Atualizar `docs/plans/PROGRESS.md` -> P03 status `completed`, proximo -> P04
 2. Mover este arquivo para `docs/plans/done/`

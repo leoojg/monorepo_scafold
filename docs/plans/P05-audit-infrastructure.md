@@ -445,6 +445,12 @@ cd apps/api && pnpm test
 - [ ] AuditContextInterceptor esta registrado no main.ts
 - [ ] AuditModule esta importado no AppModule
 
+## Commit
+
+Apos verificacao final, commitar todas as alteracoes:
+- Mensagem: `feat(P05): audit infrastructure - subscriber, AsyncLocalStorage e interceptor`
+- Escrever mensagem em `/tmp/commit-msg.txt`, usar `git commit -F /tmp/commit-msg.txt`, apagar o arquivo depois.
+
 ## Ao finalizar
 1. Atualizar `docs/plans/PROGRESS.md` -> P05 status `completed`, proximo -> P06
 2. Mover este arquivo para `docs/plans/done/`

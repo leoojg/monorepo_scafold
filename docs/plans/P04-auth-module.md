@@ -506,6 +506,12 @@ cd apps/api && pnpm test
 - [ ] `pnpm api:openapi` gera arquivo `openapi.json`
 - [ ] Swagger UI acessivel em `http://localhost:3000/docs`
 
+## Commit
+
+Apos verificacao final, commitar todas as alteracoes:
+- Mensagem: `feat(P04): auth module - JWT, login, guard, strategy e generate-openapi`
+- Escrever mensagem em `/tmp/commit-msg.txt`, usar `git commit -F /tmp/commit-msg.txt`, apagar o arquivo depois.
+
 ## Ao finalizar
 1. Atualizar `docs/plans/PROGRESS.md` -> P04 status `completed`, proximo -> P05
 2. Mover este arquivo para `docs/plans/done/`

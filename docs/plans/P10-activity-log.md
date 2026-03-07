@@ -810,6 +810,12 @@ cd apps/api && pnpm test -- --testPathPattern=audit
 - [ ] Frontend: clicar em entry expande o diff viewer
 - [ ] Frontend: filtros de entityType e action funcionam
 
+## Commit
+
+Apos verificacao final, commitar todas as alteracoes:
+- Mensagem: `feat(P10): activity log - audit controller/service + frontend timeline e diff viewer + testes`
+- Escrever mensagem em `/tmp/commit-msg.txt`, usar `git commit -F /tmp/commit-msg.txt`, apagar o arquivo depois.
+
 ## Ao finalizar
 1. Atualizar `docs/plans/PROGRESS.md` -> P10 status `completed`
 2. Mover este arquivo para `docs/plans/done/`

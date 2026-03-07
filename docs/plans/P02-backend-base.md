@@ -532,6 +532,12 @@ cd apps/api && pnpm install
 - [ ] Todos os arquivos em `common/` existem e tem sintaxe valida
 - [ ] `main.ts` e `app.module.ts` compilam corretamente
 
+## Commit
+
+Apos verificacao final, commitar todas as alteracoes:
+- Mensagem: `feat(P02): backend base - NestJS, MikroORM, ValidationPipe, Swagger, decorators e DTOs`
+- Escrever mensagem em `/tmp/commit-msg.txt`, usar `git commit -F /tmp/commit-msg.txt`, apagar o arquivo depois.
+
 ## Ao finalizar
 1. Atualizar `docs/plans/PROGRESS.md` -> P02 status `completed`, proximo -> P03
 2. Mover este arquivo para `docs/plans/done/`

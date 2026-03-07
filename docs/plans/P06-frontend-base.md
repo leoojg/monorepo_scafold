@@ -1057,6 +1057,12 @@ cd apps/admin && npx shadcn@latest init -y
 - [ ] Layout com sidebar aparece apos login
 - [ ] DataTable renderiza com dados mock
 
+## Commit
+
+Apos verificacao final, commitar todas as alteracoes:
+- Mensagem: `feat(P06): frontend base - Vite, React, TanStack Router, shadcn, Orval, layout e login`
+- Escrever mensagem em `/tmp/commit-msg.txt`, usar `git commit -F /tmp/commit-msg.txt`, apagar o arquivo depois.
+
 ## Ao finalizar
 1. Atualizar `docs/plans/PROGRESS.md` -> P06 status `completed`, proximo -> P07/P08/P09/P10 (paralelo)
 2. Mover este arquivo para `docs/plans/done/`
