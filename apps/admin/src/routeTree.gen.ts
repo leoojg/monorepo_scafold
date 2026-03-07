@@ -15,6 +15,8 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedTenantsIndexRouteImport } from './routes/_authenticated/tenants/index'
 import { Route as AuthenticatedActivityIndexRouteImport } from './routes/_authenticated/activity/index'
 import { Route as AuthenticatedTenantsTenantIdRouteImport } from './routes/_authenticated/tenants/$tenantId'
+import { Route as AuthenticatedTenantsTenantIdCompaniesIndexRouteImport } from './routes/_authenticated/tenants.$tenantId.companies/index'
+import { Route as AuthenticatedTenantsTenantIdCompaniesCompanyIdRouteImport } from './routes/_authenticated/tenants.$tenantId.companies/$companyId'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -48,35 +50,67 @@ const AuthenticatedTenantsTenantIdRoute =
     path: '/tenants/$tenantId',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedTenantsTenantIdCompaniesIndexRoute =
+  AuthenticatedTenantsTenantIdCompaniesIndexRouteImport.update({
+    id: '/companies/',
+    path: '/companies/',
+    getParentRoute: () => AuthenticatedTenantsTenantIdRoute,
+  } as any)
+const AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute =
+  AuthenticatedTenantsTenantIdCompaniesCompanyIdRouteImport.update({
+    id: '/companies/$companyId',
+    path: '/companies/$companyId',
+    getParentRoute: () => AuthenticatedTenantsTenantIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/login': typeof LoginRoute
-  '/tenants/$tenantId': typeof AuthenticatedTenantsTenantIdRoute
+  '/tenants/$tenantId': typeof AuthenticatedTenantsTenantIdRouteWithChildren
   '/activity/': typeof AuthenticatedActivityIndexRoute
   '/tenants/': typeof AuthenticatedTenantsIndexRoute
+  '/tenants/$tenantId/companies/$companyId': typeof AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute
+  '/tenants/$tenantId/companies/': typeof AuthenticatedTenantsTenantIdCompaniesIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/': typeof AuthenticatedIndexRoute
-  '/tenants/$tenantId': typeof AuthenticatedTenantsTenantIdRoute
+  '/tenants/$tenantId': typeof AuthenticatedTenantsTenantIdRouteWithChildren
   '/activity': typeof AuthenticatedActivityIndexRoute
   '/tenants': typeof AuthenticatedTenantsIndexRoute
+  '/tenants/$tenantId/companies/$companyId': typeof AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute
+  '/tenants/$tenantId/companies': typeof AuthenticatedTenantsTenantIdCompaniesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/_authenticated/tenants/$tenantId': typeof AuthenticatedTenantsTenantIdRoute
+  '/_authenticated/tenants/$tenantId': typeof AuthenticatedTenantsTenantIdRouteWithChildren
   '/_authenticated/activity/': typeof AuthenticatedActivityIndexRoute
   '/_authenticated/tenants/': typeof AuthenticatedTenantsIndexRoute
+  '/_authenticated/tenants/$tenantId/companies/$companyId': typeof AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute
+  '/_authenticated/tenants/$tenantId/companies/': typeof AuthenticatedTenantsTenantIdCompaniesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/tenants/$tenantId' | '/activity/' | '/tenants/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/tenants/$tenantId'
+    | '/activity/'
+    | '/tenants/'
+    | '/tenants/$tenantId/companies/$companyId'
+    | '/tenants/$tenantId/companies/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/' | '/tenants/$tenantId' | '/activity' | '/tenants'
+  to:
+    | '/login'
+    | '/'
+    | '/tenants/$tenantId'
+    | '/activity'
+    | '/tenants'
+    | '/tenants/$tenantId/companies/$companyId'
+    | '/tenants/$tenantId/companies'
   id:
     | '__root__'
     | '/_authenticated'
@@ -85,6 +119,8 @@ export interface FileRouteTypes {
     | '/_authenticated/tenants/$tenantId'
     | '/_authenticated/activity/'
     | '/_authenticated/tenants/'
+    | '/_authenticated/tenants/$tenantId/companies/$companyId'
+    | '/_authenticated/tenants/$tenantId/companies/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -136,19 +172,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTenantsTenantIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/tenants/$tenantId/companies/': {
+      id: '/_authenticated/tenants/$tenantId/companies/'
+      path: '/companies'
+      fullPath: '/tenants/$tenantId/companies/'
+      preLoaderRoute: typeof AuthenticatedTenantsTenantIdCompaniesIndexRouteImport
+      parentRoute: typeof AuthenticatedTenantsTenantIdRoute
+    }
+    '/_authenticated/tenants/$tenantId/companies/$companyId': {
+      id: '/_authenticated/tenants/$tenantId/companies/$companyId'
+      path: '/companies/$companyId'
+      fullPath: '/tenants/$tenantId/companies/$companyId'
+      preLoaderRoute: typeof AuthenticatedTenantsTenantIdCompaniesCompanyIdRouteImport
+      parentRoute: typeof AuthenticatedTenantsTenantIdRoute
+    }
   }
 }
 
+interface AuthenticatedTenantsTenantIdRouteChildren {
+  AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute: typeof AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute
+  AuthenticatedTenantsTenantIdCompaniesIndexRoute: typeof AuthenticatedTenantsTenantIdCompaniesIndexRoute
+}
+
+const AuthenticatedTenantsTenantIdRouteChildren: AuthenticatedTenantsTenantIdRouteChildren =
+  {
+    AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute:
+      AuthenticatedTenantsTenantIdCompaniesCompanyIdRoute,
+    AuthenticatedTenantsTenantIdCompaniesIndexRoute:
+      AuthenticatedTenantsTenantIdCompaniesIndexRoute,
+  }
+
+const AuthenticatedTenantsTenantIdRouteWithChildren =
+  AuthenticatedTenantsTenantIdRoute._addFileChildren(
+    AuthenticatedTenantsTenantIdRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedTenantsTenantIdRoute: typeof AuthenticatedTenantsTenantIdRoute
+  AuthenticatedTenantsTenantIdRoute: typeof AuthenticatedTenantsTenantIdRouteWithChildren
   AuthenticatedActivityIndexRoute: typeof AuthenticatedActivityIndexRoute
   AuthenticatedTenantsIndexRoute: typeof AuthenticatedTenantsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
-  AuthenticatedTenantsTenantIdRoute: AuthenticatedTenantsTenantIdRoute,
+  AuthenticatedTenantsTenantIdRoute:
+    AuthenticatedTenantsTenantIdRouteWithChildren,
   AuthenticatedActivityIndexRoute: AuthenticatedActivityIndexRoute,
   AuthenticatedTenantsIndexRoute: AuthenticatedTenantsIndexRoute,
 }
