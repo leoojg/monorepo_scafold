@@ -22,6 +22,7 @@ interface DataTableProps<T> {
   pagination?: PaginationData;
   onSearchChange?: (search: string) => void;
   searchPlaceholder?: string;
+  onRowClick?: (item: T) => void;
 }
 
 export function DataTable<T extends Record<string, any>>({
@@ -31,6 +32,7 @@ export function DataTable<T extends Record<string, any>>({
   pagination,
   onSearchChange,
   searchPlaceholder = 'Search...',
+  onRowClick,
 }: DataTableProps<T>) {
   return (
     <div className="space-y-4">
@@ -78,7 +80,11 @@ export function DataTable<T extends Record<string, any>>({
               </tr>
             ) : (
               data.map((item, idx) => (
-                <tr key={item.id ?? idx} className="border-b">
+                <tr
+                  key={item.id ?? idx}
+                  className={`border-b ${onRowClick ? 'cursor-pointer hover:bg-muted/50' : ''}`}
+                  onClick={() => onRowClick?.(item)}
+                >
                   {columns.map((col) => (
                     <td key={col.key} className="px-4 py-3 text-sm">
                       {col.render ? col.render(item) : item[col.key]}
