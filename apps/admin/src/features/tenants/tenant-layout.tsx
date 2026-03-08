@@ -1,32 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link, Outlet, useMatchRoute } from '@tanstack/react-router';
-import { customInstance } from '@/api/client';
 import { StatusBadge } from '@/components/shared/status-badge';
 import { ConfirmDialog } from '@/components/shared/confirm-dialog';
 import { useState } from 'react';
 import { Ban, CheckCircle, Settings, Factory, Users, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { type Tenant, fetchTenant, toggleTenantStatus } from './tenant-api';
 
 interface TenantLayoutProps {
   tenantId: string;
-}
-
-interface Tenant {
-  id: string;
-  name: string;
-  slug: string;
-  status: string;
-  settings?: Record<string, unknown>;
-  createdAt: string;
-  updatedAt: string;
-}
-
-async function fetchTenant(id: string) {
-  return customInstance<Tenant>({ url: `/tenants/${id}`, method: 'GET' });
-}
-
-async function toggleTenantStatus(id: string, status: string) {
-  return customInstance({ url: `/tenants/${id}`, method: 'PATCH', data: { status } });
 }
 
 const tabs = [

@@ -1,27 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { customInstance } from '@/api/client';
 import { TenantForm } from './tenant-form';
+import { type Tenant, fetchTenant, updateTenant } from './tenant-api';
 
 interface TenantSettingsPageProps {
   tenantId: string;
-}
-
-interface Tenant {
-  id: string;
-  name: string;
-  slug: string;
-  status: string;
-  settings?: Record<string, unknown>;
-  createdAt: string;
-  updatedAt: string;
-}
-
-async function fetchTenant(id: string) {
-  return customInstance<Tenant>({ url: `/tenants/${id}`, method: 'GET' });
-}
-
-async function updateTenant(id: string, data: { name: string; slug: string }) {
-  return customInstance({ url: `/tenants/${id}`, method: 'PATCH', data });
 }
 
 export function TenantSettingsPage({ tenantId }: TenantSettingsPageProps) {
