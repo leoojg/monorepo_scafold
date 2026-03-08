@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { TenantForm } from './tenant-form';
 import { type Tenant, fetchTenant, updateTenant } from './tenant-api';
 
@@ -7,6 +8,8 @@ interface TenantSettingsPageProps {
 }
 
 export function TenantSettingsPage({ tenantId }: TenantSettingsPageProps) {
+  const { t } = useTranslation('tenants');
+  const { t: tCommon } = useTranslation('common');
   const queryClient = useQueryClient();
 
   const { data: tenant, isLoading } = useQuery({
@@ -23,17 +26,17 @@ export function TenantSettingsPage({ tenantId }: TenantSettingsPageProps) {
   });
 
   if (isLoading) {
-    return <div className="text-muted-foreground">Loading...</div>;
+    return <div className="text-muted-foreground">{tCommon('status.loading')}</div>;
   }
 
   if (!tenant) {
-    return <div className="text-muted-foreground">Tenant not found</div>;
+    return <div className="text-muted-foreground">{t('detail.notFound')}</div>;
   }
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
       <div className="rounded-lg border p-6">
-        <h2 className="mb-4 text-lg font-semibold">Edit Tenant</h2>
+        <h2 className="mb-4 text-lg font-semibold">{t('detail.edit')}</h2>
         <TenantForm
           initialData={{ name: tenant.name, slug: tenant.slug }}
           onSubmit={(data) => updateMutation.mutate(data)}
@@ -42,9 +45,9 @@ export function TenantSettingsPage({ tenantId }: TenantSettingsPageProps) {
       </div>
 
       <div className="rounded-lg border p-4">
-        <p className="text-sm text-muted-foreground">Created</p>
+        <p className="text-sm text-muted-foreground">{tCommon('labels.created')}</p>
         <p className="font-medium">{new Date(tenant.createdAt).toLocaleDateString()}</p>
-        <p className="mt-2 text-sm text-muted-foreground">Last Updated</p>
+        <p className="mt-2 text-sm text-muted-foreground">{tCommon('labels.lastUpdated')}</p>
         <p className="font-medium">{new Date(tenant.updatedAt).toLocaleDateString()}</p>
       </div>
     </div>

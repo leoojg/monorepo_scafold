@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from '@tanstack/react-router';
 import { DataTable } from '@/components/data-table/data-table';
-import { columns, type TenantRow } from './columns';
+import { getColumns, type TenantRow } from './columns';
 import { TenantForm } from './tenant-form';
 import { Modal } from '@/components/shared/modal';
 import { ConfirmDialog } from '@/components/shared/confirm-dialog';
@@ -39,12 +40,16 @@ async function toggleTenantStatus(id: string, status: string) {
 }
 
 export function TenantsListPage() {
+  const { t } = useTranslation('tenants');
+  const { t: tCommon } = useTranslation('common');
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
   const [confirmToggle, setConfirmToggle] = useState<TenantRow | null>(null);
+
+  const columns = getColumns(t);
 
   const { data, isLoading } = useQuery({
     queryKey: ['tenants', { page, search }],
@@ -80,7 +85,7 @@ export function TenantsListPage() {
           onClick={() => navigate({ to: '/tenants/$tenantId', params: { tenantId: tenant.id } })}
         >
           <Settings className="mr-2 h-4 w-4" />
-          Manage
+          {tCommon('actions.manage')}
         </DropdownItem>
         <DropdownItem
           onClick={() => setConfirmToggle(tenant)}
@@ -89,12 +94,12 @@ export function TenantsListPage() {
           {tenant.status === 'active' ? (
             <>
               <Ban className="mr-2 h-4 w-4" />
-              Suspend
+              {tCommon('actions.suspend')}
             </>
           ) : (
             <>
               <CheckCircle className="mr-2 h-4 w-4" />
-              Activate
+              {tCommon('actions.activate')}
             </>
           )}
         </DropdownItem>
@@ -105,13 +110,13 @@ export function TenantsListPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Tenants</h1>
+        <h1 className="text-2xl font-bold">{t('list.title')}</h1>
         <button
           onClick={() => setCreateOpen(true)}
           className="inline-flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
         >
           <Plus className="h-4 w-4" />
-          New Tenant
+          {t('list.new')}
         </button>
       </div>
 
@@ -130,10 +135,10 @@ export function TenantsListPage() {
           onPageChange: setPage,
         }}
         onSearchChange={setSearch}
-        searchPlaceholder="Search tenants..."
+        searchPlaceholder={t('list.search')}
       />
 
-      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="New Tenant">
+      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title={t('list.new')}>
         <TenantForm
           onSubmit={(data) => createMutation.mutate(data)}
           isLoading={createMutation.isPending}
@@ -142,9 +147,13 @@ export function TenantsListPage() {
 
       <ConfirmDialog
         open={!!confirmToggle}
-        title={confirmToggle?.status === 'active' ? 'Suspend Tenant' : 'Activate Tenant'}
-        description={`Are you sure you want to ${confirmToggle?.status === 'active' ? 'suspend' : 'activate'} "${confirmToggle?.name}"?`}
-        confirmLabel={confirmToggle?.status === 'active' ? 'Suspend' : 'Activate'}
+        title={confirmToggle?.status === 'active' ? t('list.suspendTitle') : t('list.activateTitle')}
+        description={
+          confirmToggle?.status === 'active'
+            ? t('list.suspendConfirm', { name: confirmToggle?.name })
+            : t('list.activateConfirm', { name: confirmToggle?.name })
+        }
+        confirmLabel={confirmToggle?.status === 'active' ? tCommon('actions.suspend') : tCommon('actions.activate')}
         onConfirm={() => confirmToggle && toggleMutation.mutate(confirmToggle)}
         onCancel={() => setConfirmToggle(null)}
       />

@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { Link, Outlet, useMatchRoute } from '@tanstack/react-router';
 import { StatusBadge } from '@/components/shared/status-badge';
 import { ConfirmDialog } from '@/components/shared/confirm-dialog';
@@ -11,16 +12,18 @@ interface TenantLayoutProps {
   tenantId: string;
 }
 
-const tabs = [
-  { to: '/tenants/$tenantId' as const, label: 'Companies', icon: Factory, exact: true },
-  { to: '/tenants/$tenantId/users' as const, label: 'Users', icon: Users, exact: false },
-  { to: '/tenants/$tenantId/settings' as const, label: 'Settings', icon: Settings, exact: false },
-];
-
 export function TenantLayout({ tenantId }: TenantLayoutProps) {
+  const { t } = useTranslation('tenants');
+  const { t: tCommon } = useTranslation('common');
   const queryClient = useQueryClient();
   const [confirmToggle, setConfirmToggle] = useState(false);
   const matchRoute = useMatchRoute();
+
+  const tabs = [
+    { to: '/tenants/$tenantId' as const, label: tCommon('nav.companies'), icon: Factory, exact: true },
+    { to: '/tenants/$tenantId/users' as const, label: tCommon('nav.users'), icon: Users, exact: false },
+    { to: '/tenants/$tenantId/settings' as const, label: tCommon('nav.settings'), icon: Settings, exact: false },
+  ];
 
   const { data: tenant, isLoading } = useQuery({
     queryKey: ['tenants', tenantId],
@@ -38,11 +41,11 @@ export function TenantLayout({ tenantId }: TenantLayoutProps) {
   });
 
   if (isLoading) {
-    return <div className="text-muted-foreground">Loading...</div>;
+    return <div className="text-muted-foreground">{tCommon('status.loading')}</div>;
   }
 
   if (!tenant) {
-    return <div className="text-muted-foreground">Tenant not found</div>;
+    return <div className="text-muted-foreground">{t('detail.notFound')}</div>;
   }
 
   return (
@@ -70,12 +73,12 @@ export function TenantLayout({ tenantId }: TenantLayoutProps) {
           {tenant.status === 'active' ? (
             <>
               <Ban className="h-4 w-4" />
-              Suspend
+              {tCommon('actions.suspend')}
             </>
           ) : (
             <>
               <CheckCircle className="h-4 w-4" />
-              Activate
+              {tCommon('actions.activate')}
             </>
           )}
         </button>
@@ -112,9 +115,13 @@ export function TenantLayout({ tenantId }: TenantLayoutProps) {
 
       <ConfirmDialog
         open={confirmToggle}
-        title={tenant.status === 'active' ? 'Suspend Tenant' : 'Activate Tenant'}
-        description={`Are you sure you want to ${tenant.status === 'active' ? 'suspend' : 'activate'} "${tenant.name}"?`}
-        confirmLabel={tenant.status === 'active' ? 'Suspend' : 'Activate'}
+        title={tenant.status === 'active' ? t('list.suspendTitle') : t('list.activateTitle')}
+        description={
+          tenant.status === 'active'
+            ? t('list.suspendConfirm', { name: tenant.name })
+            : t('list.activateConfirm', { name: tenant.name })
+        }
+        confirmLabel={tenant.status === 'active' ? tCommon('actions.suspend') : tCommon('actions.activate')}
         onConfirm={() => toggleMutation.mutate()}
         onCancel={() => setConfirmToggle(false)}
       />
