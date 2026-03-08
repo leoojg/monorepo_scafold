@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 interface ConfirmDialogProps {
   open: boolean;
   title: string;
@@ -11,10 +13,13 @@ export function ConfirmDialog({
   open,
   title,
   description,
-  confirmLabel = 'Confirm',
+  confirmLabel,
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  const { t } = useTranslation('common');
+  const resolvedConfirmLabel = confirmLabel ?? t('actions.confirm');
+
   if (!open) return null;
 
   return (
@@ -27,13 +32,13 @@ export function ConfirmDialog({
             onClick={onCancel}
             className="inline-flex h-9 items-center rounded-md border px-4 text-sm font-medium hover:bg-accent"
           >
-            Cancel
+            {t('actions.cancel')}
           </button>
           <button
             onClick={onConfirm}
             className="inline-flex h-9 items-center rounded-md bg-destructive px-4 text-sm font-medium text-destructive-foreground hover:bg-destructive/90"
           >
-            {confirmLabel}
+            {resolvedConfirmLabel}
           </button>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 interface DiffEntry {
   field: string;
   from?: unknown;
@@ -9,8 +11,10 @@ interface DiffViewerProps {
 }
 
 export function DiffViewer({ diff }: DiffViewerProps) {
+  const { t } = useTranslation('common');
+
   if (diff.length === 0) {
-    return <p className="text-sm text-muted-foreground">No changes</p>;
+    return <p className="text-sm text-muted-foreground">{t('diff.noChanges')}</p>;
   }
 
   return (
@@ -22,13 +26,13 @@ export function DiffViewer({ diff }: DiffViewerProps) {
           </p>
           <div className="mt-1 flex gap-4 text-sm">
             <div className="flex-1">
-              <span className="text-xs text-muted-foreground">From:</span>
+              <span className="text-xs text-muted-foreground">{t('diff.from')}</span>
               <pre className="mt-0.5 rounded bg-red-50 p-1.5 text-xs text-red-800">
                 {JSON.stringify(entry.from, null, 2) ?? 'null'}
               </pre>
             </div>
             <div className="flex-1">
-              <span className="text-xs text-muted-foreground">To:</span>
+              <span className="text-xs text-muted-foreground">{t('diff.to')}</span>
               <pre className="mt-0.5 rounded bg-green-50 p-1.5 text-xs text-green-800">
                 {JSON.stringify(entry.to, null, 2) ?? 'null'}
               </pre>

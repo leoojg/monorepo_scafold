@@ -1,4 +1,5 @@
 import { type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pagination } from './pagination';
 
 export interface Column<T> {
@@ -31,15 +32,17 @@ export function DataTable<T extends Record<string, any>>({
   isLoading,
   pagination,
   onSearchChange,
-  searchPlaceholder = 'Search...',
+  searchPlaceholder,
   onRowClick,
 }: DataTableProps<T>) {
+  const { t } = useTranslation('common');
+  const resolvedSearchPlaceholder = searchPlaceholder ?? t('actions.search');
   return (
     <div className="space-y-4">
       {onSearchChange && (
         <input
           type="text"
-          placeholder={searchPlaceholder}
+          placeholder={resolvedSearchPlaceholder}
           onChange={(e) => onSearchChange(e.target.value)}
           className="flex h-10 w-full max-w-sm rounded-md border border-input bg-background px-3 py-2 text-sm"
         />
@@ -66,7 +69,7 @@ export function DataTable<T extends Record<string, any>>({
                   colSpan={columns.length}
                   className="px-4 py-8 text-center text-sm text-muted-foreground"
                 >
-                  Loading...
+                  {t('status.loading')}
                 </td>
               </tr>
             ) : data.length === 0 ? (
@@ -75,7 +78,7 @@ export function DataTable<T extends Record<string, any>>({
                   colSpan={columns.length}
                   className="px-4 py-8 text-center text-sm text-muted-foreground"
                 >
-                  No results found
+                  {t('status.noResults')}
                 </td>
               </tr>
             ) : (
