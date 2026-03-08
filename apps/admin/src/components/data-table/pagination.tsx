@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface PaginationProps {
   page: number;
@@ -15,10 +16,12 @@ export function Pagination({
   hasPrevious,
   onPageChange,
 }: PaginationProps) {
+  const { t } = useTranslation('common');
+
   return (
     <div className="flex items-center justify-between px-2 py-4">
       <p className="text-sm text-muted-foreground">
-        Page {page} of {totalPages}
+        {t('labels.page', { page, totalPages })}
       </p>
       <div className="flex items-center gap-2">
         <button

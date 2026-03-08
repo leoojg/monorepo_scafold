@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ErrorCode } from '../../common/enums';
 import { EntityManager, FilterQuery } from '@mikro-orm/postgresql';
 import { AuditLog } from './audit-log.entity';
 import { AuditQueryDto } from './dto/audit-query.dto';
@@ -39,7 +40,12 @@ export class AuditService {
 
   async findOne(id: string): Promise<AuditLog> {
     const log = await this.em.findOne(AuditLog, { id });
-    if (!log) throw new NotFoundException(`Audit log ${id} not found`);
+    if (!log) {
+      throw new NotFoundException({
+        message: `Audit log ${id} not found`,
+        errorCode: ErrorCode.AUDIT_LOG_NOT_FOUND,
+      });
+    }
     return log;
   }
 }

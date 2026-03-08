@@ -1,0 +1,26 @@
+{
+  "list": {
+    "title": "Tenants",
+    "new": "New Tenant",
+    "search": "Search tenants...",
+    "suspendTitle": "Suspend Tenant",
+    "activateTitle": "Activate Tenant",
+    "suspendConfirm": "Are you sure you want to suspend tenant \"{{name}}\"?",
+    "activateConfirm": "Are you sure you want to activate tenant \"{{name}}\"?"
+  },
+  "columns": {
+    "name": "Name",
+    "slug": "Slug",
+    "status": "Status",
+    "created": "Created"
+  },
+  "form": {
+    "name": "Name",
+    "slug": "Slug",
+    "slugHelp": "Only lowercase letters, numbers and hyphens"
+  },
+  "detail": {
+    "edit": "Edit Tenant",
+    "notFound": "Tenant not found"
+  }
+}

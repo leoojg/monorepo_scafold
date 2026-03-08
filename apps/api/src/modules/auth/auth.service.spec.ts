@@ -65,26 +65,38 @@ describe('AuthService', () => {
       });
     });
 
-    it('should throw UnauthorizedException when operator not found', async () => {
+    it('should throw UnauthorizedException with errorCode when operator not found', async () => {
       operatorsService.findByEmail.mockResolvedValue(null);
 
-      await expect(authService.login(loginDto)).rejects.toThrow(
-        UnauthorizedException,
-      );
+      try {
+        await authService.login(loginDto);
+        fail('Should have thrown');
+      } catch (e: any) {
+        expect(e).toBeInstanceOf(UnauthorizedException);
+        expect(e.getResponse()).toEqual(
+          expect.objectContaining({ errorCode: 'AUTH_INVALID_CREDENTIALS' }),
+        );
+      }
     });
 
-    it('should throw UnauthorizedException when operator is inactive', async () => {
+    it('should throw UnauthorizedException with errorCode when operator is inactive', async () => {
       operatorsService.findByEmail.mockResolvedValue({
         id: 'uuid-1',
         isActive: false,
       } as any);
 
-      await expect(authService.login(loginDto)).rejects.toThrow(
-        UnauthorizedException,
-      );
+      try {
+        await authService.login(loginDto);
+        fail('Should have thrown');
+      } catch (e: any) {
+        expect(e).toBeInstanceOf(UnauthorizedException);
+        expect(e.getResponse()).toEqual(
+          expect.objectContaining({ errorCode: 'AUTH_INVALID_CREDENTIALS' }),
+        );
+      }
     });
 
-    it('should throw UnauthorizedException when password is wrong', async () => {
+    it('should throw UnauthorizedException with errorCode when password is wrong', async () => {
       const hashedPassword = await bcrypt.hash('different-password', 12);
       operatorsService.findByEmail.mockResolvedValue({
         id: 'uuid-1',
@@ -93,9 +105,15 @@ describe('AuthService', () => {
         isActive: true,
       } as any);
 
-      await expect(authService.login(loginDto)).rejects.toThrow(
-        UnauthorizedException,
-      );
+      try {
+        await authService.login(loginDto);
+        fail('Should have thrown');
+      } catch (e: any) {
+        expect(e).toBeInstanceOf(UnauthorizedException);
+        expect(e.getResponse()).toEqual(
+          expect.objectContaining({ errorCode: 'AUTH_INVALID_CREDENTIALS' }),
+        );
+      }
     });
   });
 });

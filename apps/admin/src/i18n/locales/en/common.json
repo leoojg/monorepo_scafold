@@ -1,0 +1,68 @@
+{
+  "appName": "Admin Platform",
+  "nav": {
+    "dashboard": "Dashboard",
+    "tenants": "Tenants",
+    "activity": "Activity",
+    "companies": "Companies",
+    "users": "Users",
+    "settings": "Settings"
+  },
+  "actions": {
+    "create": "Create",
+    "update": "Update",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "manage": "Manage",
+    "suspend": "Suspend",
+    "activate": "Activate",
+    "disable": "Disable",
+    "enable": "Enable",
+    "search": "Search..."
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "suspended": "Suspended",
+    "trial": "Trial",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "signingIn": "Signing in...",
+    "noResults": "No results found"
+  },
+  "labels": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "status": "Status",
+    "created": "Created",
+    "lastUpdated": "Last Updated",
+    "page": "Page {{page}} of {{totalPages}}"
+  },
+  "errors": {
+    "AUTH_INVALID_CREDENTIALS": "Invalid credentials",
+    "TENANT_NOT_FOUND": "Tenant not found",
+    "COMPANY_NOT_FOUND": "Company not found",
+    "USER_NOT_FOUND": "User not found",
+    "AUDIT_LOG_NOT_FOUND": "Audit log not found",
+    "UNIQUE_CONSTRAINT_VIOLATION": "A record with the same value already exists",
+    "VALIDATION_ERROR": "Please check the form fields",
+    "UNKNOWN": "An unexpected error occurred"
+  },
+  "userMenu": {
+    "language": "Language",
+    "english": "English",
+    "portuguese": "Português (BR)",
+    "signOut": "Sign out"
+  },
+  "diff": {
+    "noChanges": "No changes",
+    "from": "From:",
+    "to": "To:"
+  },
+  "dashboard": {
+    "welcome": "Welcome to the Admin Platform. Use the sidebar to navigate."
+  }
+}

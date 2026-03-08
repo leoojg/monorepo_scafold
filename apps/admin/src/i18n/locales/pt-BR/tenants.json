@@ -1,0 +1,26 @@
+{
+  "list": {
+    "title": "Organizações",
+    "new": "Nova Organização",
+    "search": "Buscar organizações...",
+    "suspendTitle": "Suspender Organização",
+    "activateTitle": "Ativar Organização",
+    "suspendConfirm": "Tem certeza que deseja suspender a organização \"{{name}}\"?",
+    "activateConfirm": "Tem certeza que deseja ativar a organização \"{{name}}\"?"
+  },
+  "columns": {
+    "name": "Nome",
+    "slug": "Slug",
+    "status": "Status",
+    "created": "Criado em"
+  },
+  "form": {
+    "name": "Nome",
+    "slug": "Slug",
+    "slugHelp": "Apenas letras minúsculas, números e hífens"
+  },
+  "detail": {
+    "edit": "Editar Organização",
+    "notFound": "Organização não encontrada"
+  }
+}

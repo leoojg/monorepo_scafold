@@ -1,5 +1,7 @@
 import { type Column } from '@/components/data-table/data-table';
 import { StatusBadge } from '@/components/shared/status-badge';
+import { formatDate } from '@/i18n/formatters';
+import { type TFunction } from 'i18next';
 
 interface TenantRow {
   id: string;
@@ -11,24 +13,26 @@ interface TenantRow {
 
 export type { TenantRow };
 
-export const columns: Column<TenantRow>[] = [
-  {
-    key: 'name',
-    header: 'Name',
-    render: (tenant) => <span className="font-medium">{tenant.name}</span>,
-  },
-  {
-    key: 'slug',
-    header: 'Slug',
-  },
-  {
-    key: 'status',
-    header: 'Status',
-    render: (tenant) => <StatusBadge status={tenant.status} />,
-  },
-  {
-    key: 'createdAt',
-    header: 'Created',
-    render: (tenant) => new Date(tenant.createdAt).toLocaleDateString(),
-  },
-];
+export function getColumns(t: TFunction): Column<TenantRow>[] {
+  return [
+    {
+      key: 'name',
+      header: t('columns.name'),
+      render: (tenant) => <span className="font-medium">{tenant.name}</span>,
+    },
+    {
+      key: 'slug',
+      header: t('columns.slug'),
+    },
+    {
+      key: 'status',
+      header: t('columns.status'),
+      render: (tenant) => <StatusBadge status={tenant.status} />,
+    },
+    {
+      key: 'createdAt',
+      header: t('columns.created'),
+      render: (tenant) => formatDate(tenant.createdAt),
+    },
+  ];
+}

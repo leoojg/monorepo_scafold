@@ -1,9 +1,12 @@
 import { useState, type FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from './auth-provider';
 import { customInstance } from '@/api/client';
 import { useNavigate } from '@tanstack/react-router';
 
 export function LoginPage() {
+  const { t } = useTranslation('auth');
+  const { t: tCommon } = useTranslation('common');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -28,8 +31,8 @@ export function LoginPage() {
 
       login(response.accessToken, response.operator);
       navigate({ to: '/' });
-    } catch {
-      setError('Invalid credentials');
+    } catch (err: any) {
+      setError(err.translatedMessage ?? tCommon('errors.UNKNOWN'));
     } finally {
       setIsLoading(false);
     }
@@ -39,8 +42,8 @@ export function LoginPage() {
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-sm space-y-6 rounded-lg border p-6 shadow-sm">
         <div className="space-y-2 text-center">
-          <h1 className="text-2xl font-bold">Admin Platform</h1>
-          <p className="text-muted-foreground">Sign in to your account</p>
+          <h1 className="text-2xl font-bold">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('subtitle')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -52,7 +55,7 @@ export function LoginPage() {
 
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm font-medium">
-              Email
+              {t('email')}
             </label>
             <input
               id="email"
@@ -66,7 +69,7 @@ export function LoginPage() {
 
           <div className="space-y-2">
             <label htmlFor="password" className="text-sm font-medium">
-              Password
+              {t('password')}
             </label>
             <input
               id="password"
@@ -83,7 +86,7 @@ export function LoginPage() {
             disabled={isLoading}
             className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
           >
-            {isLoading ? 'Signing in...' : 'Sign in'}
+            {isLoading ? t('signingIn') : t('signIn')}
           </button>
         </form>
       </div>

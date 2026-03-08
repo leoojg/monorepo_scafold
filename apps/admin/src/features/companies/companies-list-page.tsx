@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DataTable } from '@/components/data-table/data-table';
-import { columns, type CompanyRow } from './columns';
+import { getColumns, type CompanyRow } from './columns';
 import { CompanyForm } from './company-form';
 import { Modal } from '@/components/shared/modal';
 import { ConfirmDialog } from '@/components/shared/confirm-dialog';
@@ -34,12 +35,16 @@ async function updateCompany(tenantId: string, id: string, data: Record<string, 
 }
 
 export function CompaniesListPage({ tenantId }: CompaniesListPageProps) {
+  const { t } = useTranslation('companies');
+  const { t: tCommon } = useTranslation('common');
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
   const [editItem, setEditItem] = useState<CompanyRow | null>(null);
   const [confirmToggle, setConfirmToggle] = useState<CompanyRow | null>(null);
+
+  const columns = getColumns(t, tCommon);
 
   const { data, isLoading } = useQuery({
     queryKey: ['companies', tenantId, { page, search }],
@@ -79,7 +84,7 @@ export function CompaniesListPage({ tenantId }: CompaniesListPageProps) {
       <ActionsDropdown>
         <DropdownItem onClick={() => setEditItem(company)}>
           <Pencil className="mr-2 h-4 w-4" />
-          Edit
+          {tCommon('actions.edit')}
         </DropdownItem>
         <DropdownItem
           onClick={() => setConfirmToggle(company)}
@@ -88,12 +93,12 @@ export function CompaniesListPage({ tenantId }: CompaniesListPageProps) {
           {company.isActive ? (
             <>
               <Ban className="mr-2 h-4 w-4" />
-              Disable
+              {tCommon('actions.disable')}
             </>
           ) : (
             <>
               <CheckCircle className="mr-2 h-4 w-4" />
-              Enable
+              {tCommon('actions.enable')}
             </>
           )}
         </DropdownItem>
@@ -104,13 +109,13 @@ export function CompaniesListPage({ tenantId }: CompaniesListPageProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Companies</h1>
+        <h1 className="text-2xl font-bold">{t('list.title')}</h1>
         <button
           onClick={() => setCreateOpen(true)}
           className="inline-flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
         >
           <Plus className="h-4 w-4" />
-          New Company
+          {t('list.new')}
         </button>
       </div>
 
@@ -127,17 +132,17 @@ export function CompaniesListPage({ tenantId }: CompaniesListPageProps) {
           onPageChange: setPage,
         }}
         onSearchChange={setSearch}
-        searchPlaceholder="Search companies..."
+        searchPlaceholder={t('list.search')}
       />
 
-      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="New Company">
+      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title={t('list.new')}>
         <CompanyForm
           onSubmit={(data) => createMutation.mutate(data)}
           isLoading={createMutation.isPending}
         />
       </Modal>
 
-      <Modal open={!!editItem} onClose={() => setEditItem(null)} title="Edit Company">
+      <Modal open={!!editItem} onClose={() => setEditItem(null)} title={tCommon('actions.edit')}>
         {editItem && (
           <CompanyForm
             initialData={{ name: editItem.name, document: editItem.document, isActive: editItem.isActive }}
@@ -149,9 +154,13 @@ export function CompaniesListPage({ tenantId }: CompaniesListPageProps) {
 
       <ConfirmDialog
         open={!!confirmToggle}
-        title={confirmToggle?.isActive ? 'Disable Company' : 'Enable Company'}
-        description={`Are you sure you want to ${confirmToggle?.isActive ? 'disable' : 'enable'} "${confirmToggle?.name}"?`}
-        confirmLabel={confirmToggle?.isActive ? 'Disable' : 'Enable'}
+        title={confirmToggle?.isActive ? t('list.disableTitle') : t('list.enableTitle')}
+        description={
+          confirmToggle?.isActive
+            ? t('list.disableConfirm', { name: confirmToggle?.name })
+            : t('list.enableConfirm', { name: confirmToggle?.name })
+        }
+        confirmLabel={confirmToggle?.isActive ? tCommon('actions.disable') : tCommon('actions.enable')}
         onConfirm={() => confirmToggle && toggleMutation.mutate(confirmToggle)}
         onCancel={() => setConfirmToggle(null)}
       />

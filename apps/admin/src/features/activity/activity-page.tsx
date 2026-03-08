@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { customInstance } from '@/api/client';
 import { ActivityTimeline } from './components/activity-timeline';
@@ -26,6 +27,8 @@ async function fetchAuditLogs(params: {
 }
 
 export function ActivityPage() {
+  const { t } = useTranslation('activity');
+  const { t: tCommon } = useTranslation('common');
   const [page, setPage] = useState(1);
   const [entityType, setEntityType] = useState('');
   const [action, setAction] = useState('');
@@ -44,7 +47,7 @@ export function ActivityPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Activity Log</h1>
+      <h1 className="text-2xl font-bold">{t('title')}</h1>
 
       <div className="flex gap-4">
         <select
@@ -55,11 +58,11 @@ export function ActivityPage() {
           }}
           className="h-10 rounded-md border border-input bg-background px-3 text-sm"
         >
-          <option value="">All entities</option>
-          <option value="Tenant">Tenant</option>
-          <option value="Company">Company</option>
-          <option value="User">User</option>
-          <option value="UserCompany">UserCompany</option>
+          <option value="">{t('filters.allEntities')}</option>
+          <option value="Tenant">{t('filters.tenant')}</option>
+          <option value="Company">{t('filters.company')}</option>
+          <option value="User">{t('filters.user')}</option>
+          <option value="UserCompany">{t('filters.userCompany')}</option>
         </select>
 
         <select
@@ -70,17 +73,17 @@ export function ActivityPage() {
           }}
           className="h-10 rounded-md border border-input bg-background px-3 text-sm"
         >
-          <option value="">All actions</option>
-          <option value="create">Create</option>
-          <option value="update">Update</option>
-          <option value="delete">Delete</option>
+          <option value="">{t('filters.allActions')}</option>
+          <option value="create">{t('filters.create')}</option>
+          <option value="update">{t('filters.update')}</option>
+          <option value="delete">{t('filters.delete')}</option>
         </select>
       </div>
 
       {isLoading ? (
-        <p className="text-muted-foreground">Loading...</p>
+        <p className="text-muted-foreground">{tCommon('status.loading')}</p>
       ) : data?.items.length === 0 ? (
-        <p className="text-muted-foreground">No activity found</p>
+        <p className="text-muted-foreground">{t('noActivity')}</p>
       ) : (
         <>
           <ActivityTimeline

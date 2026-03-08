@@ -1,15 +1,11 @@
+import { formatDateTime } from '@/i18n/formatters';
+import { useTranslation } from 'react-i18next';
 import { ChangeDetailCard } from './change-detail-card';
 
 const actionColors: Record<string, string> = {
   create: 'bg-green-500',
   update: 'bg-blue-500',
   delete: 'bg-red-500',
-};
-
-const actionLabels: Record<string, string> = {
-  create: 'Created',
-  update: 'Updated',
-  delete: 'Deleted',
 };
 
 interface AuditLogEntry {
@@ -34,6 +30,14 @@ export function ActivityTimeline({
   onSelectLog,
   selectedLogId,
 }: ActivityTimelineProps) {
+  const { t } = useTranslation('activity');
+
+  const actionLabels: Record<string, string> = {
+    create: t('actions.created'),
+    update: t('actions.updated'),
+    delete: t('actions.deleted'),
+  };
+
   return (
     <div className="space-y-4">
       {logs.map((log) => (
@@ -68,11 +72,11 @@ export function ActivityTimeline({
                   <span className="text-sm font-medium">{log.entityType}</span>
                 </div>
                 <span className="text-xs text-muted-foreground">
-                  {new Date(log.createdAt).toLocaleString()}
+                  {formatDateTime(log.createdAt)}
                 </span>
               </div>
               <p className="mt-1 text-xs text-muted-foreground">
-                by {log.performedByType}
+                {t('by')} {log.performedByType}
                 {log.performedById ? ` (${log.performedById.slice(0, 8)}...)` : ''}
               </p>
             </button>

@@ -1,0 +1,22 @@
+{
+  "title": "Activity Log",
+  "filters": {
+    "allEntities": "All entities",
+    "tenant": "Tenant",
+    "company": "Company",
+    "user": "User",
+    "userCompany": "UserCompany",
+    "allActions": "All actions",
+    "create": "create",
+    "update": "update",
+    "delete": "delete"
+  },
+  "actions": {
+    "created": "Created",
+    "updated": "Updated",
+    "deleted": "Deleted"
+  },
+  "by": "by",
+  "noActivity": "No activity found",
+  "noDetails": "No details available"
+}

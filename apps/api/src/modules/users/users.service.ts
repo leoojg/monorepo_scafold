@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ErrorCode } from '../../common/enums';
 import { EntityManager, FilterQuery } from '@mikro-orm/postgresql';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
@@ -56,7 +57,12 @@ export class UsersService {
       { id, tenant: tenantId },
       { populate: ['userCompanies.company'] },
     );
-    if (!user) throw new NotFoundException(`User ${id} not found`);
+    if (!user) {
+      throw new NotFoundException({
+        message: `User ${id} not found`,
+        errorCode: ErrorCode.USER_NOT_FOUND,
+      });
+    }
     return user;
   }
 

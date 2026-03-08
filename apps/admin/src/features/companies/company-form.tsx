@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface CompanyFormData {
   name: string;
@@ -13,6 +14,8 @@ interface CompanyFormProps {
 }
 
 export function CompanyForm({ initialData, onSubmit, isLoading }: CompanyFormProps) {
+  const { t } = useTranslation('companies');
+  const { t: tCommon } = useTranslation('common');
   const [name, setName] = useState(initialData?.name ?? '');
   const [document, setDocument] = useState(initialData?.document ?? '');
   const [isActive, setIsActive] = useState(initialData?.isActive ?? true);
@@ -27,7 +30,7 @@ export function CompanyForm({ initialData, onSubmit, isLoading }: CompanyFormPro
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <label htmlFor="name" className="text-sm font-medium">Name</label>
+        <label htmlFor="name" className="text-sm font-medium">{t('form.name')}</label>
         <input
           id="name"
           value={name}
@@ -37,7 +40,7 @@ export function CompanyForm({ initialData, onSubmit, isLoading }: CompanyFormPro
         />
       </div>
       <div className="space-y-2">
-        <label htmlFor="document" className="text-sm font-medium">Document</label>
+        <label htmlFor="document" className="text-sm font-medium">{t('form.document')}</label>
         <input
           id="document"
           value={document}
@@ -55,7 +58,7 @@ export function CompanyForm({ initialData, onSubmit, isLoading }: CompanyFormPro
             onChange={(e) => setIsActive(e.target.checked)}
             className="h-4 w-4 rounded border-gray-300"
           />
-          <label htmlFor="isActive" className="text-sm font-medium">Active</label>
+          <label htmlFor="isActive" className="text-sm font-medium">{t('form.active')}</label>
         </div>
       )}
       <button
@@ -63,7 +66,7 @@ export function CompanyForm({ initialData, onSubmit, isLoading }: CompanyFormPro
         disabled={isLoading}
         className="inline-flex h-10 items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
       >
-        {isLoading ? 'Saving...' : initialData ? 'Update' : 'Create'}
+        {isLoading ? tCommon('status.saving') : initialData ? tCommon('actions.update') : tCommon('actions.create')}
       </button>
     </form>
   );

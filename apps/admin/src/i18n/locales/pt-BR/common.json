@@ -1,0 +1,68 @@
+{
+  "appName": "Plataforma Admin",
+  "nav": {
+    "dashboard": "Painel",
+    "tenants": "Organizações",
+    "activity": "Atividades",
+    "companies": "Empresas",
+    "users": "Usuários",
+    "settings": "Configurações"
+  },
+  "actions": {
+    "create": "Criar",
+    "update": "Atualizar",
+    "edit": "Editar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Salvar",
+    "manage": "Gerenciar",
+    "suspend": "Suspender",
+    "activate": "Ativar",
+    "disable": "Desativar",
+    "enable": "Habilitar",
+    "search": "Buscar..."
+  },
+  "status": {
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "suspended": "Suspenso",
+    "trial": "Teste",
+    "loading": "Carregando...",
+    "saving": "Salvando...",
+    "signingIn": "Entrando...",
+    "noResults": "Nenhum resultado encontrado"
+  },
+  "labels": {
+    "name": "Nome",
+    "email": "E-mail",
+    "password": "Senha",
+    "status": "Status",
+    "created": "Criado em",
+    "lastUpdated": "Última atualização",
+    "page": "Página {{page}} de {{totalPages}}"
+  },
+  "errors": {
+    "AUTH_INVALID_CREDENTIALS": "Credenciais inválidas",
+    "TENANT_NOT_FOUND": "Organização não encontrada",
+    "COMPANY_NOT_FOUND": "Empresa não encontrada",
+    "USER_NOT_FOUND": "Usuário não encontrado",
+    "AUDIT_LOG_NOT_FOUND": "Registro de atividade não encontrado",
+    "UNIQUE_CONSTRAINT_VIOLATION": "Já existe um registro com o mesmo valor",
+    "VALIDATION_ERROR": "Verifique os campos do formulário",
+    "UNKNOWN": "Ocorreu um erro inesperado"
+  },
+  "userMenu": {
+    "language": "Idioma",
+    "english": "English",
+    "portuguese": "Português (BR)",
+    "signOut": "Sair"
+  },
+  "diff": {
+    "noChanges": "Sem alterações",
+    "from": "De:",
+    "to": "Para:"
+  },
+  "dashboard": {
+    "welcome": "Bem-vindo à Plataforma Admin. Use o menu lateral para navegar."
+  }
+}

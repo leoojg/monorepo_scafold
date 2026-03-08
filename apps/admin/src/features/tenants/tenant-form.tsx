@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface TenantFormData {
   name: string;
@@ -12,6 +13,8 @@ interface TenantFormProps {
 }
 
 export function TenantForm({ initialData, onSubmit, isLoading }: TenantFormProps) {
+  const { t } = useTranslation('tenants');
+  const { t: tCommon } = useTranslation('common');
   const [name, setName] = useState(initialData?.name ?? '');
   const [slug, setSlug] = useState(initialData?.slug ?? '');
 
@@ -36,7 +39,7 @@ export function TenantForm({ initialData, onSubmit, isLoading }: TenantFormProps
     <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
       <div className="space-y-2">
         <label htmlFor="name" className="text-sm font-medium">
-          Name
+          {t('form.name')}
         </label>
         <input
           id="name"
@@ -49,7 +52,7 @@ export function TenantForm({ initialData, onSubmit, isLoading }: TenantFormProps
 
       <div className="space-y-2">
         <label htmlFor="slug" className="text-sm font-medium">
-          Slug
+          {t('form.slug')}
         </label>
         <input
           id="slug"
@@ -60,7 +63,7 @@ export function TenantForm({ initialData, onSubmit, isLoading }: TenantFormProps
           required
         />
         <p className="text-xs text-muted-foreground">
-          Only lowercase letters, numbers and hyphens
+          {t('form.slugHelp')}
         </p>
       </div>
 
@@ -69,7 +72,7 @@ export function TenantForm({ initialData, onSubmit, isLoading }: TenantFormProps
         disabled={isLoading}
         className="inline-flex h-10 items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
       >
-        {isLoading ? 'Saving...' : initialData ? 'Update' : 'Create'}
+        {isLoading ? tCommon('status.saving') : initialData ? tCommon('actions.update') : tCommon('actions.create')}
       </button>
     </form>
   );

@@ -5,7 +5,7 @@ import { TenantQueryDto } from './dto/tenant-query.dto';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
 import { PaginatedResponseDto } from '../../common/dto/paginated-response.dto';
-import { TenantStatus } from '../../common/enums';
+import { ErrorCode, TenantStatus } from '../../common/enums';
 
 @Injectable()
 export class TenantsService {
@@ -43,7 +43,12 @@ export class TenantsService {
 
   async findOne(id: string): Promise<Tenant> {
     const tenant = await this.em.findOne(Tenant, { id });
-    if (!tenant) throw new NotFoundException(`Tenant ${id} not found`);
+    if (!tenant) {
+      throw new NotFoundException({
+        message: `Tenant ${id} not found`,
+        errorCode: ErrorCode.TENANT_NOT_FOUND,
+      });
+    }
     return tenant;
   }
 

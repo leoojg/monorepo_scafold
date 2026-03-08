@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { UniqueConstraintViolationException } from '@mikro-orm/core';
 import { Response } from 'express';
+import { ErrorCode } from '../enums';
 
 @Catch(UniqueConstraintViolationException)
 export class MikroOrmExceptionFilter implements ExceptionFilter {
@@ -15,7 +16,8 @@ export class MikroOrmExceptionFilter implements ExceptionFilter {
 
     response.status(HttpStatus.CONFLICT).json({
       statusCode: HttpStatus.CONFLICT,
-      message: 'A record with this value already exists',
+      errorCode: ErrorCode.UNIQUE_CONSTRAINT_VIOLATION,
+      message: 'A record with the same unique value already exists',
       timestamp: new Date().toISOString(),
     });
   }
