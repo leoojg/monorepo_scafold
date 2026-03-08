@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DataTable } from '@/components/data-table/data-table';
-import { columns, type UserRow } from './columns';
+import { getColumns, type UserRow } from './columns';
 import { UserForm } from './user-form';
 import { Modal } from '@/components/shared/modal';
 import { ConfirmDialog } from '@/components/shared/confirm-dialog';
@@ -34,12 +35,16 @@ async function updateUser(tenantId: string, id: string, data: Record<string, unk
 }
 
 export function UsersListPage({ tenantId }: UsersListPageProps) {
+  const { t } = useTranslation('users');
+  const { t: tCommon } = useTranslation('common');
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
   const [editItem, setEditItem] = useState<UserRow | null>(null);
   const [confirmToggle, setConfirmToggle] = useState<UserRow | null>(null);
+
+  const columns = getColumns(t, tCommon);
 
   const { data, isLoading } = useQuery({
     queryKey: ['users', tenantId, { page, search }],
@@ -80,7 +85,7 @@ export function UsersListPage({ tenantId }: UsersListPageProps) {
       <ActionsDropdown>
         <DropdownItem onClick={() => setEditItem(user)}>
           <Pencil className="mr-2 h-4 w-4" />
-          Edit
+          {tCommon('actions.edit')}
         </DropdownItem>
         <DropdownItem
           onClick={() => setConfirmToggle(user)}
@@ -89,12 +94,12 @@ export function UsersListPage({ tenantId }: UsersListPageProps) {
           {user.isActive ? (
             <>
               <Ban className="mr-2 h-4 w-4" />
-              Disable
+              {tCommon('actions.disable')}
             </>
           ) : (
             <>
               <CheckCircle className="mr-2 h-4 w-4" />
-              Enable
+              {tCommon('actions.enable')}
             </>
           )}
         </DropdownItem>
@@ -105,13 +110,13 @@ export function UsersListPage({ tenantId }: UsersListPageProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Users</h1>
+        <h1 className="text-2xl font-bold">{t('list.title')}</h1>
         <button
           onClick={() => setCreateOpen(true)}
           className="inline-flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
         >
           <Plus className="h-4 w-4" />
-          New User
+          {t('list.new')}
         </button>
       </div>
 
@@ -128,17 +133,17 @@ export function UsersListPage({ tenantId }: UsersListPageProps) {
           onPageChange: setPage,
         }}
         onSearchChange={setSearch}
-        searchPlaceholder="Search users..."
+        searchPlaceholder={t('list.search')}
       />
 
-      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="New User">
+      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title={t('list.new')}>
         <UserForm
           onSubmit={(data) => createMutation.mutate(data)}
           isLoading={createMutation.isPending}
         />
       </Modal>
 
-      <Modal open={!!editItem} onClose={() => setEditItem(null)} title="Edit User">
+      <Modal open={!!editItem} onClose={() => setEditItem(null)} title={tCommon('actions.edit')}>
         {editItem && (
           <UserForm
             initialData={{
@@ -155,9 +160,13 @@ export function UsersListPage({ tenantId }: UsersListPageProps) {
 
       <ConfirmDialog
         open={!!confirmToggle}
-        title={confirmToggle?.isActive ? 'Disable User' : 'Enable User'}
-        description={`Are you sure you want to ${confirmToggle?.isActive ? 'disable' : 'enable'} "${confirmToggle?.name}"?`}
-        confirmLabel={confirmToggle?.isActive ? 'Disable' : 'Enable'}
+        title={confirmToggle?.isActive ? t('list.disableTitle') : t('list.enableTitle')}
+        description={
+          confirmToggle?.isActive
+            ? t('list.disableConfirm', { name: confirmToggle?.name })
+            : t('list.enableConfirm', { name: confirmToggle?.name })
+        }
+        confirmLabel={confirmToggle?.isActive ? tCommon('actions.disable') : tCommon('actions.enable')}
         onConfirm={() => confirmToggle && toggleMutation.mutate(confirmToggle)}
         onCancel={() => setConfirmToggle(null)}
       />
