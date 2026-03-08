@@ -12,9 +12,9 @@ interface TenantLayoutProps {
 }
 
 const tabs = [
-  { to: '/tenants/$tenantId' as const, label: 'Settings', icon: Settings, exact: true },
-  { to: '/tenants/$tenantId/companies' as const, label: 'Companies', icon: Factory, exact: false },
+  { to: '/tenants/$tenantId' as const, label: 'Companies', icon: Factory, exact: true },
   { to: '/tenants/$tenantId/users' as const, label: 'Users', icon: Users, exact: false },
+  { to: '/tenants/$tenantId/settings' as const, label: 'Settings', icon: Settings, exact: false },
 ];
 
 export function TenantLayout({ tenantId }: TenantLayoutProps) {
