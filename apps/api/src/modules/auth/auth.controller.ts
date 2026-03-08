@@ -61,7 +61,7 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Logout all sessions' })
   async logoutAll(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    await this.authService.logoutAll(req.user!['id']);
+    await this.authService.logoutAll((req.user as any).id);
     this.clearRefreshCookie(res);
   }
 

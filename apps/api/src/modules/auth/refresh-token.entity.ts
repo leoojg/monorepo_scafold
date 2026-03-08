@@ -1,8 +1,10 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, OptionalProps, PrimaryKey, Property } from '@mikro-orm/core';
 import { Operator } from '../operators/operator.entity';
 
 @Entity({ tableName: 'refresh_tokens' })
 export class RefreshToken {
+  [OptionalProps]?: 'id' | 'createdAt' | 'usedAt' | 'revokedAt' | 'isValid';
+
   @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
   id!: string;
 
@@ -24,9 +26,10 @@ export class RefreshToken {
   @Property({ type: 'Date', nullable: true })
   revokedAt: Date | null = null;
 
-  @Property()
+  @Property({ defaultRaw: 'now()' })
   createdAt: Date = new Date();
 
+  @Property({ persist: false })
   get isValid(): boolean {
     return !this.usedAt && !this.revokedAt && this.expiresAt > new Date();
   }
