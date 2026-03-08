@@ -103,12 +103,18 @@ describe('TenantsService', () => {
       expect(result).toEqual(tenant);
     });
 
-    it('should throw NotFoundException when tenant not found', async () => {
+    it('should throw NotFoundException with errorCode when tenant not found', async () => {
       em.findOne.mockResolvedValue(null);
 
-      await expect(service.findOne('nonexistent')).rejects.toThrow(
-        NotFoundException,
-      );
+      try {
+        await service.findOne('nonexistent');
+        fail('Should have thrown');
+      } catch (e: any) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.getResponse()).toEqual(
+          expect.objectContaining({ errorCode: 'TENANT_NOT_FOUND' }),
+        );
+      }
     });
   });
 

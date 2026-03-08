@@ -97,11 +97,18 @@ describe('UsersService', () => {
       expect(result).toEqual(user);
     });
 
-    it('should throw NotFoundException when not found', async () => {
+    it('should throw NotFoundException with errorCode when not found', async () => {
       em.findOne.mockResolvedValue(null);
-      await expect(service.findOne('tenant-1', 'nope')).rejects.toThrow(
-        NotFoundException,
-      );
+
+      try {
+        await service.findOne('tenant-1', 'nope');
+        fail('Should have thrown');
+      } catch (e: any) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.getResponse()).toEqual(
+          expect.objectContaining({ errorCode: 'USER_NOT_FOUND' }),
+        );
+      }
     });
   });
 

@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityManager } from '@mikro-orm/postgresql';
+import { NotFoundException } from '@nestjs/common';
 import { AuditService } from './audit.service';
 import { AuditLog } from './audit-log.entity';
 import { AuditAction } from '../../common/enums';
@@ -146,10 +147,18 @@ describe('AuditService', () => {
       expect(result).toEqual(log);
     });
 
-    it('should throw NotFoundException when not found', async () => {
+    it('should throw NotFoundException with errorCode when not found', async () => {
       em.findOne.mockResolvedValue(null);
 
-      await expect(service.findOne('nope')).rejects.toThrow();
+      try {
+        await service.findOne('nope');
+        fail('Should have thrown');
+      } catch (e: any) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.getResponse()).toEqual(
+          expect.objectContaining({ errorCode: 'AUDIT_LOG_NOT_FOUND' }),
+        );
+      }
     });
   });
 });

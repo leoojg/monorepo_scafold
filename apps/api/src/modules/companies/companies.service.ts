@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ErrorCode } from '../../common/enums';
 import { EntityManager, FilterQuery } from '@mikro-orm/postgresql';
 import { Company } from './company.entity';
 import { Tenant } from '../tenants/tenant.entity';
@@ -44,7 +45,12 @@ export class CompaniesService {
 
   async findOne(tenantId: string, id: string): Promise<Company> {
     const company = await this.em.findOne(Company, { id, tenant: tenantId });
-    if (!company) throw new NotFoundException(`Company ${id} not found`);
+    if (!company) {
+      throw new NotFoundException({
+        message: `Company ${id} not found`,
+        errorCode: ErrorCode.COMPANY_NOT_FOUND,
+      });
+    }
     return company;
   }
 
