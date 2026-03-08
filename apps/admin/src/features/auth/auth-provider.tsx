@@ -5,6 +5,7 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
+import { customInstance } from '@/api/client';
 
 interface Operator {
   id: string;
@@ -38,7 +39,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setOperator(newOperator);
   }, []);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    try {
+      await customInstance({ url: '/auth/logout', method: 'POST' });
+    } catch {
+      // ignore errors — clear local state regardless
+    }
     localStorage.removeItem('auth_token');
     localStorage.removeItem('auth_operator');
     setToken(null);

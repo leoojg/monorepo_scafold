@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { RefreshTokensService } from './refresh-tokens.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { OperatorsModule } from '../operators/operators.module';
 
@@ -16,14 +17,14 @@ import { OperatorsModule } from '../operators/operators.module';
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET', 'change-me-in-production'),
         signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRES_IN', '1d'),
+          expiresIn: configService.get<string>('JWT_EXPIRES_IN', '15m'),
         },
       }),
     }),
-    OperatorsModule,
+    forwardRef(() => OperatorsModule),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService],
+  providers: [AuthService, RefreshTokensService, JwtStrategy],
+  exports: [AuthService, RefreshTokensService],
 })
 export class AuthModule {}

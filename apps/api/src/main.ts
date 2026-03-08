@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { MikroOrmExceptionFilter } from './common/filters/mikro-orm-exception.filter';
@@ -9,7 +10,11 @@ import { AuditContextInterceptor } from './common/interceptors/audit-context.int
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.use(cookieParser());
+
   app.enableCors({
+    origin: process.env.VITE_API_URL?.replace('/api/v1', '') ?? 'http://localhost:5173',
+    credentials: true,
     maxAge: 3600,
   });
 
