@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { TenantSettingsPage } from '@/features/tenants/tenant-detail-page';
+import { CompaniesListPage } from '@/features/companies/companies-list-page';
 
 export const Route = createFileRoute('/_authenticated/tenants/$tenantId/')({
   component: () => {
     const { tenantId } = Route.useParams();
-    return <TenantSettingsPage tenantId={tenantId} />;
+    return <CompaniesListPage tenantId={tenantId} />;
   },
 });
