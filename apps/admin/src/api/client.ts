@@ -1,4 +1,5 @@
 import Axios, { type AxiosRequestConfig } from 'axios';
+import i18n from '@/i18n';
 
 const AXIOS_INSTANCE = Axios.create({
   baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/v1',
@@ -17,6 +18,15 @@ AXIOS_INSTANCE.interceptors.response.use(
       localStorage.removeItem('auth_token');
       window.location.href = '/login';
     }
+
+    const errorCode = error.response?.data?.errorCode;
+    if (errorCode) {
+      const key = `errors.${errorCode}`;
+      error.translatedMessage = i18n.exists(`common:${key}`)
+        ? i18n.t(`common:${key}`)
+        : i18n.t('common:errors.UNKNOWN');
+    }
+
     return Promise.reject(error);
   },
 );

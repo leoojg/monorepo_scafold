@@ -32,10 +32,7 @@ export function LoginPage() {
       login(response.accessToken, response.operator);
       navigate({ to: '/' });
     } catch (err: any) {
-      const errorCode = err?.response?.data?.errorCode;
-      setError(
-        tCommon(`errors.${errorCode}`, { defaultValue: tCommon('errors.UNKNOWN') })
-      );
+      setError(err.translatedMessage ?? tCommon('errors.UNKNOWN'));
     } finally {
       setIsLoading(false);
     }
