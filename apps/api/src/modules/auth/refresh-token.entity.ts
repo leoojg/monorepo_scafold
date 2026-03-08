@@ -6,7 +6,7 @@ export class RefreshToken {
   @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
   id!: string;
 
-  @Property({ index: true })
+  @Property({ unique: true })
   tokenHash!: string;
 
   @ManyToOne(() => Operator)
@@ -18,10 +18,10 @@ export class RefreshToken {
   @Property()
   expiresAt!: Date;
 
-  @Property({ nullable: true })
+  @Property({ type: 'Date', nullable: true })
   usedAt: Date | null = null;
 
-  @Property({ nullable: true })
+  @Property({ type: 'Date', nullable: true })
   revokedAt: Date | null = null;
 
   @Property()
