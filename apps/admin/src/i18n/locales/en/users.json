@@ -1,0 +1,29 @@
+{
+  "list": {
+    "title": "Users",
+    "new": "New User",
+    "search": "Search users...",
+    "disableTitle": "Disable User",
+    "enableTitle": "Enable User",
+    "disableConfirm": "Are you sure you want to disable user \"{{name}}\"?",
+    "enableConfirm": "Are you sure you want to enable user \"{{name}}\"?"
+  },
+  "columns": {
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "created": "Created"
+  },
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "role": "Role",
+    "active": "Active"
+  },
+  "roles": {
+    "tenant_admin": "Tenant Admin",
+    "company_admin": "Company Admin"
+  }
+}

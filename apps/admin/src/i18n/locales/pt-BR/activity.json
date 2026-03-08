@@ -1,0 +1,22 @@
+{
+  "title": "Registro de Atividades",
+  "filters": {
+    "allEntities": "Todas as entidades",
+    "tenant": "Organização",
+    "company": "Empresa",
+    "user": "Usuário",
+    "userCompany": "VínculoUsuário",
+    "allActions": "Todas as ações",
+    "create": "criar",
+    "update": "atualizar",
+    "delete": "excluir"
+  },
+  "actions": {
+    "created": "Criou",
+    "updated": "Atualizou",
+    "deleted": "Excluiu"
+  },
+  "by": "por",
+  "noActivity": "Nenhuma atividade encontrada",
+  "noDetails": "Sem detalhes disponíveis"
+}

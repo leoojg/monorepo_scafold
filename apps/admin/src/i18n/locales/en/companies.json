@@ -1,0 +1,22 @@
+{
+  "list": {
+    "title": "Companies",
+    "new": "New Company",
+    "search": "Search companies...",
+    "disableTitle": "Disable Company",
+    "enableTitle": "Enable Company",
+    "disableConfirm": "Are you sure you want to disable company \"{{name}}\"?",
+    "enableConfirm": "Are you sure you want to enable company \"{{name}}\"?"
+  },
+  "columns": {
+    "name": "Name",
+    "document": "Document",
+    "status": "Status",
+    "created": "Created"
+  },
+  "form": {
+    "name": "Name",
+    "document": "Document",
+    "active": "Active"
+  }
+}

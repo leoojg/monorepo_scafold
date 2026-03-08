@@ -1,0 +1,22 @@
+{
+  "list": {
+    "title": "Empresas",
+    "new": "Nova Empresa",
+    "search": "Buscar empresas...",
+    "disableTitle": "Desativar Empresa",
+    "enableTitle": "Habilitar Empresa",
+    "disableConfirm": "Tem certeza que deseja desativar a empresa \"{{name}}\"?",
+    "enableConfirm": "Tem certeza que deseja habilitar a empresa \"{{name}}\"?"
+  },
+  "columns": {
+    "name": "Nome",
+    "document": "Documento",
+    "status": "Status",
+    "created": "Criado em"
+  },
+  "form": {
+    "name": "Nome",
+    "document": "Documento",
+    "active": "Ativa"
+  }
+}

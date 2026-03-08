@@ -1,0 +1,29 @@
+{
+  "list": {
+    "title": "Usuários",
+    "new": "Novo Usuário",
+    "search": "Buscar usuários...",
+    "disableTitle": "Desativar Usuário",
+    "enableTitle": "Habilitar Usuário",
+    "disableConfirm": "Tem certeza que deseja desativar o usuário \"{{name}}\"?",
+    "enableConfirm": "Tem certeza que deseja habilitar o usuário \"{{name}}\"?"
+  },
+  "columns": {
+    "name": "Nome",
+    "email": "E-mail",
+    "role": "Perfil",
+    "status": "Status",
+    "created": "Criado em"
+  },
+  "form": {
+    "name": "Nome",
+    "email": "E-mail",
+    "password": "Senha",
+    "role": "Perfil",
+    "active": "Ativo"
+  },
+  "roles": {
+    "tenant_admin": "Admin da Organização",
+    "company_admin": "Admin da Empresa"
+  }
+}
