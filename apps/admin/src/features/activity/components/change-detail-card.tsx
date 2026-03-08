@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { DiffViewer } from '@/components/shared/diff-viewer';
 
 interface ChangeDetailCardProps {
@@ -15,6 +16,8 @@ interface ChangeDetailCardProps {
 }
 
 export function ChangeDetailCard({ log }: ChangeDetailCardProps) {
+  const { t } = useTranslation('activity');
+
   return (
     <div className="rounded-lg border p-4 space-y-3">
       <div className="flex items-center gap-2">
@@ -33,7 +36,7 @@ export function ChangeDetailCard({ log }: ChangeDetailCardProps) {
           {JSON.stringify(log.changes.before, null, 2)}
         </pre>
       ) : (
-        <p className="text-sm text-muted-foreground">No details available</p>
+        <p className="text-sm text-muted-foreground">{t('noDetails')}</p>
       )}
     </div>
   );
