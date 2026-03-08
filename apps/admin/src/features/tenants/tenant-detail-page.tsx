@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/i18n/formatters';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { TenantForm } from './tenant-form';
@@ -46,9 +47,9 @@ export function TenantSettingsPage({ tenantId }: TenantSettingsPageProps) {
 
       <div className="rounded-lg border p-4">
         <p className="text-sm text-muted-foreground">{tCommon('labels.created')}</p>
-        <p className="font-medium">{new Date(tenant.createdAt).toLocaleDateString()}</p>
+        <p className="font-medium">{formatDateTime(tenant.createdAt)}</p>
         <p className="mt-2 text-sm text-muted-foreground">{tCommon('labels.lastUpdated')}</p>
-        <p className="font-medium">{new Date(tenant.updatedAt).toLocaleDateString()}</p>
+        <p className="font-medium">{formatDateTime(tenant.updatedAt)}</p>
       </div>
     </div>
   );

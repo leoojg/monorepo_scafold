@@ -1,5 +1,6 @@
 import { type Column } from '@/components/data-table/data-table';
 import { StatusBadge } from '@/components/shared/status-badge';
+import { formatDate } from '@/i18n/formatters';
 import { type TFunction } from 'i18next';
 
 interface TenantRow {
@@ -31,7 +32,7 @@ export function getColumns(t: TFunction): Column<TenantRow>[] {
     {
       key: 'createdAt',
       header: t('columns.created'),
-      render: (tenant) => new Date(tenant.createdAt).toLocaleDateString(),
+      render: (tenant) => formatDate(tenant.createdAt),
     },
   ];
 }

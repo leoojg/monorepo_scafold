@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/i18n/formatters';
 import { useTranslation } from 'react-i18next';
 import { ChangeDetailCard } from './change-detail-card';
 
@@ -71,7 +72,7 @@ export function ActivityTimeline({
                   <span className="text-sm font-medium">{log.entityType}</span>
                 </div>
                 <span className="text-xs text-muted-foreground">
-                  {new Date(log.createdAt).toLocaleString()}
+                  {formatDateTime(log.createdAt)}
                 </span>
               </div>
               <p className="mt-1 text-xs text-muted-foreground">

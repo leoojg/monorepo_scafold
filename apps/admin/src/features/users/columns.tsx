@@ -1,4 +1,5 @@
 import { type Column } from '@/components/data-table/data-table';
+import { formatDate } from '@/i18n/formatters';
 import { type TFunction } from 'i18next';
 
 interface UserRow {
@@ -50,7 +51,7 @@ export function getColumns(t: TFunction, tCommon: TFunction): Column<UserRow>[] 
     {
       key: 'createdAt',
       header: t('columns.created'),
-      render: (user) => new Date(user.createdAt).toLocaleDateString(),
+      render: (user) => formatDate(user.createdAt),
     },
   ];
 }
