@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_authenticated/')({
@@ -5,11 +6,13 @@ export const Route = createFileRoute('/_authenticated/')({
 });
 
 function DashboardPage() {
+  const { t } = useTranslation('common');
+
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <h1 className="text-2xl font-bold">{t('nav.dashboard')}</h1>
       <p className="text-muted-foreground">
-        Welcome to the Admin Platform. Use the sidebar to navigate.
+        {t('dashboard.welcome')}
       </p>
     </div>
   );
