@@ -117,4 +117,63 @@ describe('AuthService', () => {
       );
     });
   });
+
+  describe('refresh', () => {
+    it('should return new access token and refresh token', async () => {
+      const mockOperator = {
+        id: 'uuid-1',
+        email: 'admin@platform.com',
+        name: 'Admin',
+        isActive: true,
+      };
+
+      refreshTokensService.rotateRefreshToken.mockResolvedValue({
+        rawToken: 'new-raw-refresh',
+        refreshToken: { id: 'new-rt-id' } as any,
+        operator: mockOperator as any,
+      });
+
+      const result = await authService.refresh('old-raw-token');
+
+      expect(result.accessToken).toBe('mock-token');
+      expect(result.refreshToken).toBe('new-raw-refresh');
+      expect(result.operator.email).toBe('admin@platform.com');
+      expect(jwtService.sign).toHaveBeenCalledWith({
+        sub: 'uuid-1',
+        email: 'admin@platform.com',
+      });
+    });
+
+    it('should throw when operator is inactive', async () => {
+      refreshTokensService.rotateRefreshToken.mockResolvedValue({
+        rawToken: 'new-raw',
+        refreshToken: { id: 'rt-id' } as any,
+        operator: { id: 'uuid-1', isActive: false } as any,
+      });
+
+      await expect(authService.refresh('token')).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+  });
+
+  describe('logout', () => {
+    it('should revoke a single refresh token', async () => {
+      await authService.logout('raw-token');
+
+      expect(refreshTokensService.revokeByRawToken).toHaveBeenCalledWith(
+        'raw-token',
+      );
+    });
+  });
+
+  describe('logoutAll', () => {
+    it('should revoke all refresh tokens for an operator', async () => {
+      await authService.logoutAll('operator-uuid');
+
+      expect(refreshTokensService.revokeByOperator).toHaveBeenCalledWith(
+        'operator-uuid',
+      );
+    });
+  });
 });

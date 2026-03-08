@@ -46,4 +46,35 @@ export class AuthService {
       },
     };
   }
+
+  async refresh(rawRefreshToken: string): Promise<AuthResponseDto> {
+    const { rawToken, operator } =
+      await this.refreshTokensService.rotateRefreshToken(rawRefreshToken);
+
+    if (!operator.isActive) {
+      await this.refreshTokensService.revokeByOperator(operator.id);
+      throw new UnauthorizedException('Operator is inactive');
+    }
+
+    const payload = { sub: operator.id, email: operator.email };
+    const accessToken = this.jwtService.sign(payload);
+
+    return {
+      accessToken,
+      refreshToken: rawToken,
+      operator: {
+        id: operator.id,
+        name: operator.name,
+        email: operator.email,
+      },
+    };
+  }
+
+  async logout(rawRefreshToken: string): Promise<void> {
+    await this.refreshTokensService.revokeByRawToken(rawRefreshToken);
+  }
+
+  async logoutAll(operatorId: string): Promise<void> {
+    await this.refreshTokensService.revokeByOperator(operatorId);
+  }
 }
