@@ -13,7 +13,7 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: process.env.VITE_API_URL?.replace('/api/v1', '') ?? 'http://localhost:5173',
+    origin: process.env.CORS_ORIGIN ?? /^http:\/\/localhost:\d+$/,
     credentials: true,
     maxAge: 3600,
   });
