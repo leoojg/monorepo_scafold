@@ -48,13 +48,13 @@ describe('CompaniesController', () => {
     expect(service.findOne).toHaveBeenCalledWith('tenant-1', '1');
   });
 
-  it('create should call service.create', async () => {
-    const dto = { name: 'Co', document: '123', tenantId: 'tenant-1' };
-    service.create.mockResolvedValue({ id: '1', ...dto } as any);
+  it('create should pass tenantId from URL param to dto', async () => {
+    const dto = { name: 'Co', document: '123' };
+    service.create.mockResolvedValue({ id: '1', ...dto, tenantId: 'tenant-1' } as any);
 
-    await controller.create(dto as any);
+    await controller.create('tenant-1', dto as any);
 
-    expect(service.create).toHaveBeenCalledWith(dto);
+    expect(service.create).toHaveBeenCalledWith({ ...dto, tenantId: 'tenant-1' });
   });
 
   it('update should pass tenantId', async () => {
