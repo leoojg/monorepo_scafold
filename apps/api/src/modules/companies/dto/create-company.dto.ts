@@ -15,10 +15,10 @@ export class CreateCompanyDto {
   @Trim()
   document!: string;
 
-  @ApiProperty({ description: 'Tenant ID this company belongs to' })
-  @IsNotEmpty()
+  @ApiPropertyOptional({ description: 'Tenant ID this company belongs to (populated from URL)' })
+  @IsOptional()
   @IsUUID()
-  tenantId!: string;
+  tenantId?: string;
 
   @ApiPropertyOptional()
   @IsOptional()

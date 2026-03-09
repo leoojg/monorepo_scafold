@@ -49,8 +49,10 @@ export class CompaniesController {
   @Post()
   @ApiOperation({ summary: 'Create company' })
   async create(
+    @Param('tenantId', ParseUUIDPipe) tenantId: string,
     @Body() dto: CreateCompanyDto,
   ): Promise<CompanyResponseDto> {
+    dto.tenantId = tenantId;
     return this.companiesService.create(dto);
   }
 
